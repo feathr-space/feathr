@@ -10,7 +10,9 @@ class Tabs extends StatelessWidget {
   const Tabs({Key? key}) : super(key: key);
 
   static const String title = 'Feather';
-  static const Widget titleWidget = Center(child: Text(title));
+  static const Widget titleWidget = Center(
+    child: Text(title),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,15 @@ class Tabs extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-            title: titleWidget,
-            bottom: const TabBar(tabs: [
+          title: titleWidget,
+          bottom: const TabBar(
+            tabs: [
               Home.tabIcon,
               Local.tabIcon,
               Fedi.tabIcon,
-            ])),
+            ],
+          ),
+        ),
         body: const TabBarView(
           children: [
             Home(),

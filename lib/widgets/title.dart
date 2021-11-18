@@ -9,12 +9,14 @@ class TitleWidget extends StatelessWidget {
   const TitleWidget(this.title, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Text(
-        title,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontFamily: "Urbanist",
-          fontSize: 84,
-        ),
-      );
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontFamily: "Urbanist",
+        fontSize: 84,
+      ),
+    );
+  }
 }
