@@ -1,6 +1,6 @@
-# feather
+# Feather
 
-A new Flutter project.
+A Mastodon / Fediverse client built in Flutter.
 
 ## Getting Started
 
