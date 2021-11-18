@@ -1,7 +1,8 @@
 on: push
+name: Tests
 jobs:
   test:
-    name: Tests
+    name: Set up project and run tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

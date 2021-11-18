@@ -1,5 +1,8 @@
 # Feather
 
+![Tests badge](https://github.com/aitorres/feather/actions/workflows/push.yaml/badge.svg)
+ [![codecov badge](https://codecov.io/gh/aitorres/feather/branch/main/graph/badge.svg?token=G14ONBBN6Z)](https://codecov.io/gh/aitorres/feather)
+
 A Mastodon / Fediverse client built in Flutter.
 
 ## Getting Started
