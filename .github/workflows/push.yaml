@@ -17,4 +17,7 @@ jobs:
     - name: Analyze code
       run: flutter analyze
     - name: Run tests
-      run: flutter test --reporter expanded
+      run: flutter test --coverage --reporter expanded
+    - name: Upload coverage to codecov
+      run: curl -s https://codecov.io/bash
+      shell: bash
