@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:feather/app.dart';
-import 'package:feather/screens/tabs.dart';
+import 'package:feather/utils/tabs.dart';
 import 'package:feather/screens/home.dart';
 
 void main() {

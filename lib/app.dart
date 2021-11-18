@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:feather/themes/dark.dart';
 import 'package:feather/themes/light.dart';
 
-import 'package:feather/screens/tabs.dart';
+import 'package:feather/utils/tabs.dart';
 
 /// [FeatherApp] is the main, entry widget of the Feather application.
 class FeatherApp extends StatelessWidget {
