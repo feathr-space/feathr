@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:feather/screens/home.dart';
 import 'package:feather/themes/dark.dart';
+import 'package:feather/themes/light.dart';
+
+import 'package:feather/screens/tabs.dart';
 
 void main() {
   runApp(const FeatherApp());
 }
 
+/// [FeatherApp] is the main, entry widget of the Feather application.
 class FeatherApp extends StatelessWidget {
   const FeatherApp({Key? key}) : super(key: key);
 
@@ -14,9 +17,10 @@ class FeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: darkThemeData,
-      home: const Home(title: 'Flutter Demo Home Page'),
+      theme: lightThemeData,
+      darkTheme: darkThemeData,
+      themeMode: ThemeMode.dark,
+      home: const Tabs(),
     );
   }
 }
-
