@@ -3,17 +3,14 @@
 ![Tests badge](https://github.com/aitorres/feather/actions/workflows/push.yaml/badge.svg)
  [![codecov badge](https://codecov.io/gh/aitorres/feather/branch/main/graph/badge.svg?token=G14ONBBN6Z)](https://codecov.io/gh/aitorres/feather)
 
-A Mastodon / Fediverse client built in Flutter.
+A Mastodon / Fediverse client built in Flutter (in development).
 
-## Getting Started
+## Contributing
 
-This project is a starting point for a Flutter application.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-A few resources to get you started if this is your first Flutter project:
+Please make sure to update tests as appropriate.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## License
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is licensed under the [GNU Affero General Public License](/LICENSE).
