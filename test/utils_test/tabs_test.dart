@@ -1,3 +1,4 @@
+import 'package:feathr/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,9 +7,10 @@ import 'package:feathr/screens/home.dart';
 
 void main() {
   testWidgets('Tabs wrapper has three tabs', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(
-      home: Tabs(),
+    await tester.pumpWidget(MaterialApp(
+      home: Tabs(
+        apiService: ApiService(),
+      ),
     ));
 
     // Expect to find our Tabbed view
