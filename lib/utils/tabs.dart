@@ -1,6 +1,7 @@
-import 'package:feathr/services/api.dart';
 import 'package:flutter/material.dart';
 
+import 'package:feathr/data/account.dart';
+import 'package:feathr/services/api.dart';
 import 'package:feathr/screens/home.dart';
 import 'package:feathr/screens/local.dart';
 import 'package:feathr/screens/fedi.dart';
@@ -8,7 +9,7 @@ import 'package:feathr/utils/messages.dart';
 
 /// The [Tabs] widget represents the tab wrapper for the main
 /// view of the Feathr app.
-class Tabs extends StatelessWidget {
+class Tabs extends StatefulWidget {
   /// Title to use in the Scaffold
   static const String title = 'feathr';
 
@@ -17,6 +18,54 @@ class Tabs extends StatelessWidget {
 
   const Tabs({Key? key, required this.apiService}) : super(key: key);
 
+  @override
+  State<Tabs> createState() => _TabsState();
+}
+
+/// The [_TabsState] class wraps up logic and state for the [Tabs] screen.
+class _TabsState extends State<Tabs> {
+  Account? account;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAccount();
+  }
+
+  /// Fetches the account stored in the global application state through
+  /// the API service, and updates the state of the widget.
+  void fetchAccount() async {
+    Account currentAccount = await widget.apiService.getCurrentAccount();
+    setState(() {
+      account = currentAccount;
+    });
+  }
+
+  /// Renders the header of the application drawer with user data taken
+  /// from the application global state, or a spinner.
+  Widget getDrawerHeader() {
+    if (account != null) {
+      // Build and return the drawer
+      return UserAccountsDrawerHeader(
+        accountName: Text(account!.username),
+        accountEmail: Text(account!.username),
+        currentAccountPicture: CircleAvatar(
+          foregroundImage: account!.avatarUrl != null
+              ? NetworkImage(account!.avatarUrl!)
+              : null,
+        ),
+        decoration: BoxDecoration(
+          image: account!.headerUrl != null
+              ? DecorationImage(image: NetworkImage(account!.headerUrl!))
+              : null,
+          color: account!.headerUrl == null ? Colors.teal : null,
+        ),
+      );
+    }
+
+    return const CircularProgressIndicator();
+  }
+
   /// Renders an application drawer, to be used as a complement for navigation
   /// in the app's main tabbed view.
   Widget getDrawer(BuildContext context) {
@@ -24,17 +73,11 @@ class Tabs extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          // TODO: fill-in with user information, see [UserAccountsDrawerHeader]
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.teal,
-            ),
-            child: Text('Drawer Header'),
-          ),
+          getDrawerHeader(),
           ListTile(
             title: const Text('Log out'),
             onTap: () async {
-              await apiService.logOut();
+              await widget.apiService.logOut();
               showSnackBar(context, "Logged out successfully. Goodbye!");
               Navigator.pushNamedAndRemoveUntil(
                 context,
@@ -54,7 +97,7 @@ class Tabs extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(title),
+          title: const Text(Tabs.title),
           bottom: const TabBar(
             tabs: [
               Home.tabIcon,
