@@ -64,6 +64,9 @@ class _LoginState extends State<Login> {
   logInAction() async {
     // TODO: store information from the account in persistent storage
     try {
+      setState(() {
+        showLoginButton = false;
+      });
       final account = await widget.apiService.getAccount();
       showSnackBar(
         context,
@@ -71,6 +74,9 @@ class _LoginState extends State<Login> {
       );
       onValidAuth();
     } on ApiException {
+      setState(() {
+        showLoginButton = true;
+      });
       showSnackBar(
         context,
         "There was an error during the log in process.",
@@ -79,9 +85,6 @@ class _LoginState extends State<Login> {
   }
 
   onValidAuth() {
-    setState(() {
-      showLoginButton = false;
-    });
     Navigator.pushNamedAndRemoveUntil(context, '/tabs', (route) => false);
   }
 
