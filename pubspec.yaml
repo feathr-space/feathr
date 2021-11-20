@@ -1,5 +1,5 @@
 name: feathr
-description: A Mastodon / Fediverse client built in Flutter.
+description: A Mastodon client built in Flutter.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
