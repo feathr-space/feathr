@@ -3,6 +3,7 @@ import 'package:oauth2_client/access_token_response.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:feathr/services/api.dart';
+import 'package:feathr/utils/messages.dart';
 import 'package:feathr/widgets/title.dart';
 import 'package:feathr/widgets/buttons.dart';
 
@@ -64,16 +65,17 @@ class _LoginState extends State<Login> {
     // TODO: store information from the account in persistent storage
     try {
       final account = await widget.apiService.getAccount();
-      showSnackBar("Successfully logged in. Welcome, ${account.username}!");
+      showSnackBar(
+        context,
+        "Successfully logged in. Welcome, ${account.username}!",
+      );
       onValidAuth();
     } on ApiException {
-      showSnackBar("There was an error during the log in process.");
+      showSnackBar(
+        context,
+        "There was an error during the log in process.",
+      );
     }
-  }
-
-  showSnackBar(String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   onValidAuth() {
