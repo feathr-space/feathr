@@ -16,7 +16,7 @@ jobs:
     - name: Download dependencies
       run: flutter pub get
     - name: Analyze code
-      run: flutter analyze
+      run: touch .env && flutter analyze
     - name: Run tests
       run: flutter test --coverage --reporter expanded
     - name: Upload coverage to codecov
