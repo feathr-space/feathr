@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:oauth2_client/oauth2_helper.dart';
 
@@ -19,9 +18,6 @@ class ApiService {
   /// URL of the Mastodon instance to perform auth with
   // TODO: let the user set their instance
   static const instanceUrl = "https://mastodon.social";
-
-  /// Helper method to access the device's secure storage
-  static const storage = FlutterSecureStorage();
 
   /// Helper to make authenticated requests to Mastodon.
   final OAuth2Helper helper = getOauthHelper(instanceUrl);
@@ -57,20 +53,11 @@ class ApiService {
   }
 
   /// Performs an authenticated query to the API in order to force the log-in
-  /// view, and persists account information in secure storage.
-  /// In the process, sets the `this.currentAccount` instance attribute.
+  /// view. In the process, sets the `this.currentAccount` instance attribute.
   Future<Account> logIn() async {
     // If the user is not authenticated, `helper` will automatically
     // request for authentication while calling this method
-    final account = await getAccount();
-
-    // Persisting some user information to use in the UI
-    await storage.write(key: "username", value: account.username);
-    await storage.write(key: "displayName", value: account.displayName);
-    await storage.write(key: "avatarUrl", value: account.avatarUrl);
-    await storage.write(key: "headerUrl", value: account.headerUrl);
-
-    return account;
+    return await getAccount();
   }
 
   /// Invalidates the stored client tokens server-side and then deletes
