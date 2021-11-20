@@ -26,19 +26,39 @@ class ApiService {
   /// Helper to make authenticated requests to Mastodon.
   final OAuth2Helper helper = getOauthHelper(instanceUrl);
 
+  /// [Account] instance of the current logged-in user.
+  Account? currentAccount;
+
+  /// Returns the current account as cached in the instance,
+  /// retrieving the account details from the API first if needed.
+  Future<Account> getCurrentAccount() async {
+    if (currentAccount != null) {
+      return currentAccount!;
+    }
+
+    return await getAccount();
+  }
+
+  /// Retrieve and return the [Account] instance associated to the current
+  /// credentials by querying the API. Updates the `this.currentAccount`
+  /// instance attribute in the process.
   Future<Account> getAccount() async {
     const apiUrl = "$instanceUrl/api/v1/accounts/verify_credentials";
     http.Response resp = await helper.get(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
-      return Account.fromJson(jsonData);
+      currentAccount = Account.fromJson(jsonData);
+      return currentAccount!;
     }
 
     throw ApiException(
         "Unexpected status code ${resp.statusCode} on `getAccount`");
   }
 
+  /// Performs an authenticated query to the API in order to force the log-in
+  /// view, and persists account information in secure storage.
+  /// In the process, sets the `this.currentAccount` instance attribute.
   Future<Account> logIn() async {
     // If the user is not authenticated, `helper` will automatically
     // request for authentication while calling this method
@@ -53,6 +73,8 @@ class ApiService {
     return account;
   }
 
+  /// Invalidates the stored client tokens server-side and then deletes
+  /// all tokens from the secure storage, effectively logging the user out.
   logOut() async {
     // Revoking credentials on server's side
     const apiUrl = "$instanceUrl/oauth/revoke";
