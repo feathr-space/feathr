@@ -62,12 +62,11 @@ class _LoginState extends State<Login> {
   }
 
   logInAction() async {
-    // TODO: store information from the account in persistent storage
     try {
       setState(() {
         showLoginButton = false;
       });
-      final account = await widget.apiService.getAccount();
+      final account = await widget.apiService.logIn();
       showSnackBar(
         context,
         "Successfully logged in. Welcome, ${account.username}!",

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:oauth2_client/oauth2_helper.dart';
 
@@ -19,6 +20,9 @@ class ApiService {
   // TODO: let the user set their instance
   static const instanceUrl = "https://mastodon.social";
 
+  /// Helper method to access the device's secure storage
+  static const storage = FlutterSecureStorage();
+
   /// Helper to make authenticated requests to Mastodon.
   final OAuth2Helper helper = getOauthHelper(instanceUrl);
 
@@ -33,6 +37,20 @@ class ApiService {
 
     throw ApiException(
         "Unexpected status code ${resp.statusCode} on `getAccount`");
+  }
+
+  Future<Account> logIn() async {
+    // If the user is not authenticated, `helper` will automatically
+    // request for authentication while calling this method
+    final account = await getAccount();
+
+    // Persisting some user information to use in the UI
+    await storage.write(key: "username", value: account.username);
+    await storage.write(key: "displayName", value: account.displayName);
+    await storage.write(key: "avatarUrl", value: account.avatarUrl);
+    await storage.write(key: "headerUrl", value: account.headerUrl);
+
+    return account;
   }
 
   logOut() async {

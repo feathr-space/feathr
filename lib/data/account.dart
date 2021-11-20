@@ -20,13 +20,17 @@ class Account {
   /// URL to the user's set avatar
   final String? avatarUrl;
 
+  /// URL to the user's set header
+  final String? headerUrl;
+
   Account(
       {required this.id,
       required this.username,
       required this.displayName,
       required this.isLocked,
       required this.isBot,
-      this.avatarUrl});
+      this.avatarUrl,
+      this.headerUrl});
 
   /// Given a Json-like [Map] with information for an account,
   /// build and return the respective [Account] instance.
@@ -38,6 +42,7 @@ class Account {
       isLocked: data["locked"]!,
       isBot: data["bot"]!,
       avatarUrl: data["avatarUrl"],
+      headerUrl: data["headerUrl"],
     );
   }
 }
