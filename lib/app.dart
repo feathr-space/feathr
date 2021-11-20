@@ -24,7 +24,7 @@ class FeathrApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => Login(apiService: apiService),
-        '/tabs': (context) => const Tabs(),
+        '/tabs': (context) => Tabs(apiService: apiService),
       },
     );
   }

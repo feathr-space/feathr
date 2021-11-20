@@ -1,18 +1,52 @@
+import 'package:feathr/services/api.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feathr/screens/home.dart';
 import 'package:feathr/screens/local.dart';
 import 'package:feathr/screens/fedi.dart';
+import 'package:feathr/utils/messages.dart';
 
 /// The [Tabs] widget represents the tab wrapper for the main
 /// view of the Feathr app.
 class Tabs extends StatelessWidget {
-  const Tabs({Key? key}) : super(key: key);
-
+  /// Title to use in the Scaffold
   static const String title = 'feathr';
-  static const Widget titleWidget = Center(
-    child: Text(title),
-  );
+
+  /// Main instance of the API service to use in the widget.
+  final ApiService apiService;
+
+  const Tabs({Key? key, required this.apiService}) : super(key: key);
+
+  /// Renders an application drawer, to be used as a complement for navigation
+  /// in the app's main tabbed view.
+  Widget getDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          // TODO: fill-in with user information, see [UserAccountsDrawerHeader]
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.teal,
+            ),
+            child: Text('Drawer Header'),
+          ),
+          ListTile(
+            title: const Text('Log out'),
+            onTap: () async {
+              await apiService.logOut();
+              showSnackBar(context, "Logged out successfully. Goodbye!");
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login',
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +54,7 @@ class Tabs extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: titleWidget,
+          title: const Text(title),
           bottom: const TabBar(
             tabs: [
               Home.tabIcon,
@@ -29,6 +63,7 @@ class Tabs extends StatelessWidget {
             ],
           ),
         ),
+        drawer: getDrawer(context),
         body: const TabBarView(
           children: [
             Home(),
