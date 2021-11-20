@@ -12,7 +12,7 @@ class FeathrApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'feathr',
       theme: lightThemeData,
       darkTheme: darkThemeData,
       themeMode: ThemeMode.dark,

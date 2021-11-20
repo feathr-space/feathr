@@ -9,7 +9,7 @@ import 'package:feathr/screens/fedi.dart';
 class Tabs extends StatelessWidget {
   const Tabs({Key? key}) : super(key: key);
 
-  static const String title = 'Feathr';
+  static const String title = 'feathr';
   static const Widget titleWidget = Center(
     child: Text(title),
   );
