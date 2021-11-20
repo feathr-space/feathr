@@ -1,6 +1,5 @@
 /// The [Account] class represents the information for a
 /// given account.
-// TODO: complete fields
 class Account {
   /// ID of the account in the Mastodon instance.
   final String id;
@@ -41,8 +40,8 @@ class Account {
       displayName: data["display_name"]!,
       isLocked: data["locked"]!,
       isBot: data["bot"]!,
-      avatarUrl: data["avatarUrl"],
-      headerUrl: data["headerUrl"],
+      avatarUrl: data["avatar"],
+      headerUrl: data["header"],
     );
   }
 }

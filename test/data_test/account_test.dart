@@ -12,7 +12,8 @@ void main() {
         "display_name": "user display name",
         "locked": false,
         "bot": true,
-        "avatarUrl": "avatar-url",
+        "avatar": "avatar-url",
+        "header": "header-url",
       };
 
       final account = Account.fromJson(data);
@@ -22,6 +23,7 @@ void main() {
       expect(account.isLocked, isFalse);
       expect(account.isBot, isTrue);
       expect(account.avatarUrl, equals("avatar-url"));
+      expect(account.headerUrl, equals("header-url"));
     },
   );
 }
