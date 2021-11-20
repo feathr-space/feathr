@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:feather/screens/home.dart';
-import 'package:feather/screens/local.dart';
-import 'package:feather/screens/fedi.dart';
+import 'package:feathr/screens/home.dart';
+import 'package:feathr/screens/local.dart';
+import 'package:feathr/screens/fedi.dart';
 
 /// The [Tabs] widget represents the tab wrapper for the main
-/// view of the Feather app.
+/// view of the Feathr app.
 class Tabs extends StatelessWidget {
   const Tabs({Key? key}) : super(key: key);
 
-  static const String title = 'Feather';
+  static const String title = 'Feathr';
   static const Widget titleWidget = Center(
     child: Text(title),
   );

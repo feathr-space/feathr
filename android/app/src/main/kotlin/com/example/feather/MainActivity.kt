@@ -1,4 +1,4 @@
-package com.example.feather
+package space.feathr.app
 
 import io.flutter.embedding.android.FlutterActivity
 

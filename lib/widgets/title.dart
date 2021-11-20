@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// The [TitleWidget] widget renders a given string with titling format,
-/// ideally to be used where the `feather` app name needs to be displayed.
+/// ideally to be used where the `feathr` app name needs to be displayed.
 class TitleWidget extends StatelessWidget {
   /// String to render within the widget.
   final String title;

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:feather/widgets/title.dart';
-import 'package:feather/widgets/buttons.dart';
+import 'package:feathr/widgets/title.dart';
+import 'package:feathr/widgets/buttons.dart';
 
 /// The [Login] screen renders an initial view of the app for unauthenticated
-/// users, allowing them to log into the application with their Mastodon credentials.
+/// users, allowing them to log into the application with their Mastodon
+/// credentials.
 /// TODO: add tests for this widget
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -54,12 +55,12 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Center(
-                  child: TitleWidget("feather"),
+                  child: TitleWidget("feathr"),
                 ),
                 Text(getVersionTag()),
               ],
             ),
-            FeatherActionButton(
+            FeathrActionButton(
               onPressed: () {},
               buttonText: "Log in",
             ),

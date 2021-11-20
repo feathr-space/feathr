@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:feather/utils/tabs.dart';
-import 'package:feather/screens/home.dart';
+import 'package:feathr/utils/tabs.dart';
+import 'package:feathr/screens/home.dart';
 
 void main() {
   testWidgets('Tabs wrapper has three tabs', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: Tabs(),
-      )
-    );
+    await tester.pumpWidget(const MaterialApp(
+      home: Tabs(),
+    ));
 
     // Expect to find our Tabbed view
     expect(find.byType(Tabs), findsOneWidget);

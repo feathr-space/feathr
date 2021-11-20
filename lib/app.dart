@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:feather/themes/dark.dart';
-import 'package:feather/themes/light.dart';
+import 'package:feathr/themes/dark.dart';
+import 'package:feathr/themes/light.dart';
 
-import 'package:feather/utils/tabs.dart';
+import 'package:feathr/utils/tabs.dart';
 
-/// [FeatherApp] is the main, entry widget of the Feather application.
-class FeatherApp extends StatelessWidget {
-  const FeatherApp({Key? key}) : super(key: key);
+/// [FeathrApp] is the main, entry widget of the Feathr application.
+class FeathrApp extends StatelessWidget {
+  const FeathrApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

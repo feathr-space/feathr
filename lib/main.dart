@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:feather/app.dart';
+import 'package:feathr/app.dart';
 
 void main() {
-  runApp(const FeatherApp());
+  runApp(const FeathrApp());
 }

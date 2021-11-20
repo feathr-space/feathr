@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// The [FeatherActionButton] widget renders a button, to be used as a
+/// The [FeathrActionButton] widget renders a button, to be used as a
 /// primary button whenever an action is expected from the user.
-class FeatherActionButton extends StatelessWidget {
+class FeathrActionButton extends StatelessWidget {
   final void Function()? onPressed;
   final String buttonText;
 
-  const FeatherActionButton(
+  const FeathrActionButton(
       {required this.onPressed, required this.buttonText, Key? key})
       : super(key: key);
 
