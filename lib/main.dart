@@ -8,5 +8,5 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // Launching the app!
-  runApp(const FeathrApp());
+  runApp(FeathrApp());
 }
