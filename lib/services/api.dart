@@ -34,4 +34,13 @@ class ApiService {
     throw ApiException(
         "Unexpected status code ${resp.statusCode} on `getAccount`");
   }
+
+  logOut() async {
+    // Revoking credentials on server's side
+    const apiUrl = "$instanceUrl/oauth/revoke";
+    await helper.post(apiUrl);
+
+    // Revoking credentials locally
+    await helper.removeAllTokens();
+  }
 }
