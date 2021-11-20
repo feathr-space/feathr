@@ -1,15 +1,17 @@
-import 'package:feathr/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:feathr/utils/tabs.dart';
 import 'package:feathr/screens/home.dart';
 
+import '../utils.dart';
+
 void main() {
   testWidgets('Tabs wrapper has three tabs', (WidgetTester tester) async {
+    final apiService = getTestApiService();
     await tester.pumpWidget(MaterialApp(
       home: Tabs(
-        apiService: ApiService(),
+        apiService: apiService,
       ),
     ));
 
