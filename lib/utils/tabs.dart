@@ -6,6 +6,7 @@ import 'package:feathr/screens/home.dart';
 import 'package:feathr/screens/local.dart';
 import 'package:feathr/screens/fedi.dart';
 import 'package:feathr/utils/messages.dart';
+import 'package:feathr/widgets/drawer.dart';
 
 /// The [Tabs] widget represents the tab wrapper for the main
 /// view of the Feathr app.
@@ -45,22 +46,7 @@ class _TabsState extends State<Tabs> {
   /// from the application global state, or a spinner.
   Widget getDrawerHeader() {
     if (account != null) {
-      // Build and return the drawer
-      return UserAccountsDrawerHeader(
-        accountName: Text(account!.username),
-        accountEmail: Text(account!.username),
-        currentAccountPicture: CircleAvatar(
-          foregroundImage: account!.avatarUrl != null
-              ? NetworkImage(account!.avatarUrl!)
-              : null,
-        ),
-        decoration: BoxDecoration(
-          image: account!.headerUrl != null
-              ? DecorationImage(image: NetworkImage(account!.headerUrl!))
-              : null,
-          color: account!.headerUrl == null ? Colors.teal : null,
-        ),
-      );
+      return FeathrDrawerHeader(account: account!);
     }
 
     return const CircularProgressIndicator();
