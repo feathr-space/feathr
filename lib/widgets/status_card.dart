@@ -26,9 +26,13 @@ class StatusCard extends StatelessWidget {
                   ? NetworkImage(status.account.avatarUrl!)
                   : null,
             ),
-            title: Text(status.account.displayName),
+            title: Text(
+              status.account.displayName != ""
+                  ? status.account.displayName
+                  : status.account.username,
+            ),
             subtitle: Text(
-              status.account.username,
+              status.account.acct,
               style: TextStyle(color: Colors.white.withOpacity(0.6)),
             ),
           ),

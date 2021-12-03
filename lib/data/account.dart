@@ -12,6 +12,10 @@ class Account {
   /// Display name associated to the account.
   final String displayName;
 
+  /// Webfinger account URI: username for local users, or username@domain for
+  /// remote users.
+  final String acct;
+
   /// Whether or not the account is locked.
   final bool isLocked;
 
@@ -28,6 +32,7 @@ class Account {
       {required this.id,
       required this.username,
       required this.displayName,
+      required this.acct,
       required this.isLocked,
       required this.isBot,
       this.avatarUrl,
@@ -40,6 +45,7 @@ class Account {
       id: data["id"]!,
       username: data["username"]!,
       displayName: data["display_name"]!,
+      acct: data["acct"]!,
       isLocked: data["locked"]!,
       isBot: data["bot"]!,
       avatarUrl: data["avatar"],
