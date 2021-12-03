@@ -9,6 +9,7 @@ void main() {
     final Account account = Account(
       id: '12345678',
       username: 'username',
+      acct: 'username',
       displayName: 'display name',
       isBot: false,
       isLocked: false,

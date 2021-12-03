@@ -12,6 +12,7 @@ void main() {
         "account": {
           "id": "this is an id",
           "username": "username123",
+          "acct": "username123",
           "display_name": "user display name",
           "locked": false,
           "bot": true,
