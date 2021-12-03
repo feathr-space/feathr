@@ -55,6 +55,9 @@ dependencies:
   flutter_html: ^2.2.0
   url_launcher: ^6.0.17
 
+  # Form validations
+  validators: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
