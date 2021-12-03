@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:feathr/data/status.dart';
 
@@ -44,6 +45,10 @@ class StatusCard extends StatelessWidget {
                 'p': Style(
                   color: Colors.white.withOpacity(0.6),
                 )
+              },
+              // TODO: handle @mentions and #hashtags differently
+              onLinkTap: (url, renderContext, attributes, element) => {
+                if (url != null) {launch(url)}
               },
             ),
           ),
