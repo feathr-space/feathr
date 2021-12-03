@@ -5,12 +5,9 @@ import 'package:feathr/screens/login.dart';
 import 'package:feathr/screens/timeline_tabs.dart';
 import 'package:feathr/widgets/title.dart';
 
-import 'utils.dart';
-
 void main() {
   testWidgets('Main view shows log-in', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    setUpTestEnvVars();
     await tester.pumpWidget(FeathrApp());
 
     // Expect to find our Login view

@@ -47,7 +47,3 @@ app.*.map.json
 
 # Coverage files
 coverage/
-
-# Credentials
-.env*
-!.env.example
