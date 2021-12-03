@@ -1,5 +1,7 @@
 /// The [Account] class represents the information for a
 /// given account.
+///
+/// reference: https://docs.joinmastodon.org/entities/account/
 class Account {
   /// ID of the account in the Mastodon instance.
   final String id;
