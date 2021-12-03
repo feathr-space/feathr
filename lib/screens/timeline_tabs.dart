@@ -58,7 +58,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: [
+        children: <Widget>[
           getDrawerHeader(),
           ListTile(
             title: const Text('Log out'),

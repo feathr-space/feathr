@@ -20,7 +20,7 @@ class StatusCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(
-        children: [
+        children: <Widget>[
           ListTile(
             leading: CircleAvatar(
               foregroundImage: status.account.avatarUrl != null
