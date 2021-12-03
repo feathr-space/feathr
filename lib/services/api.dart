@@ -56,7 +56,6 @@ class ApiService {
 
     // If `maxId` is not null, we'll use it as a threshold so that we only
     // get posts older (further down in the timeline) than this one
-    // TODO: request both ways, not only older toots
     if (maxId != null) {
       apiUrl += "?max_id=$maxId";
     }

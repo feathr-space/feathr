@@ -72,11 +72,14 @@ class _TimelineState extends State<Timeline> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: PagedListView<String?, Status>(
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Status>(
-          itemBuilder: (context, item, index) => StatusCard(
-            item,
+      child: RefreshIndicator(
+        onRefresh: () => Future.sync(_pagingController.refresh),
+        child: PagedListView<String?, Status>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Status>(
+            itemBuilder: (context, item, index) => StatusCard(
+              item,
+            ),
           ),
         ),
       ),
