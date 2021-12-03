@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 
 import 'package:feathr/helpers/auth.dart';
@@ -20,15 +21,115 @@ class ApiException implements Exception {
 enum TimelineType { home, local, fedi }
 
 class ApiService {
+  /// Access to the device's secure storage to persist session values
+  static const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
   /// URL of the Mastodon instance to perform auth with
-  // TODO: let the user set their instance
-  static const instanceUrl = "https://mastodon.social";
+  String? instanceUrl;
+
+  /// Client key for authentication with Mastodon
+  /// (available after app registration)
+  String? oauthClientId;
+
+  /// Client secret for authentication with Mastodon
+  /// (available after app registration)
+  String? oauthClientSecret;
 
   /// Helper to make authenticated requests to Mastodon.
-  final OAuth2Helper helper = getOauthHelper(instanceUrl);
+  OAuth2Helper? helper;
 
   /// [Account] instance of the current logged-in user.
   Account? currentAccount;
+
+  /// Registers a new `app` on a Mastodon instance and sets the client tokens on
+  /// the current state of the API service instance
+  Future<void> getClientCredentials() async {
+    final apiUrl = "${instanceUrl!}/api/v1/apps";
+
+    // Attempting to register the app
+    http.Response resp;
+    try {
+      resp = await http.post(
+        Uri.parse(apiUrl),
+        body: {
+          "client_name": "feathr",
+          "redirect_uris": featherRedirectUri,
+          "scopes": oauthScopes.join(" "),
+          "website": "https://feathr.space",
+        },
+      );
+    } on Exception {
+      // This probably means that the `instanceUrl` does not actually point
+      // towards a valid Mastodon instance
+      throw ApiException(
+        "Error connecting to server on `getClientCredentials`",
+      );
+    }
+
+    if (resp.statusCode == 200) {
+      // Setting the client tokens
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      oauthClientId = jsonData["client_id"];
+      oauthClientSecret = jsonData["client_secret"];
+      return;
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `getClientCredentials`",
+    );
+  }
+
+  /// Creates a new instance of the Oauth Helper with the current state of
+  /// the API service instance (if valid), or deletes the current one if
+  /// there are null values in the state.
+  void setHelper() {
+    if (instanceUrl != null &&
+        oauthClientId != null &&
+        oauthClientSecret != null) {
+      helper = getOauthHelper(instanceUrl!, oauthClientId!, oauthClientSecret!);
+    } else {
+      helper = null;
+    }
+  }
+
+  /// Given a Mastodon instance URL, attempts to create a new `app` in the
+  /// server for `feathr`, updating the device's secure storage in order
+  /// to preserve the app tokens and instance URL.
+  Future<void> registerApp(String newInstanceUrl) async {
+    // Adding the protocol / scheme if needed
+    if (!newInstanceUrl.contains("://")) {
+      instanceUrl = "https://$newInstanceUrl";
+    } else {
+      instanceUrl = newInstanceUrl;
+    }
+
+    // This call would set `instanceUrl`, `oauthClientId` and
+    // `oauthClientSecret` if everything works as expected
+    await getClientCredentials();
+
+    // This call would set `helper`
+    setHelper();
+
+    // Persisting information in secure storage
+    await secureStorage.write(key: "instanceUrl", value: instanceUrl);
+    await secureStorage.write(key: "oauthClientId", value: oauthClientId);
+    await secureStorage.write(
+      key: "oauthClientSecret",
+      value: oauthClientSecret,
+    );
+  }
+
+  /// Attempts to set the API service instance's status from the device's
+  /// secure storage. Succeeds if `registerApp` ran before and the
+  /// storage has not been deleted. Useful to restore the API service
+  /// credentials when restarting the app for a logged in user.
+  Future<void> loadApiServiceFromStorage() async {
+    instanceUrl = await secureStorage.read(key: "instanceUrl");
+    oauthClientId = await secureStorage.read(key: "oauthClientId");
+    oauthClientSecret = await secureStorage.read(key: "oauthClientSecret");
+
+    setHelper();
+  }
 
   /// Given a timeline type, an optional maxId and a limit of statuses,
   /// requests the `limit` amount of statuses from the selected timeline
@@ -44,10 +145,10 @@ class ApiService {
     String apiUrl;
 
     if (timelineType == TimelineType.home) {
-      apiUrl = "$instanceUrl/api/v1/timelines/home?limit=$limit";
+      apiUrl = "${instanceUrl!}/api/v1/timelines/home?limit=$limit";
     } else {
       // Both the Local and the Fedi timelines use the same base endpoint
-      apiUrl = "$instanceUrl/api/v1/timelines/public?limit=$limit";
+      apiUrl = "${instanceUrl!}/api/v1/timelines/public?limit=$limit";
 
       if (timelineType == TimelineType.local) {
         apiUrl += "?local=true";
@@ -60,8 +161,7 @@ class ApiService {
       apiUrl += "?max_id=$maxId";
     }
 
-    http.Response resp = await helper.get(apiUrl);
-
+    http.Response resp = await helper!.get(apiUrl);
     if (resp.statusCode == 200) {
       // The response is a list of json objects
       List<dynamic> jsonDataList = jsonDecode(resp.body);
@@ -92,8 +192,8 @@ class ApiService {
   /// credentials by querying the API. Updates the `this.currentAccount`
   /// instance attribute in the process.
   Future<Account> getAccount() async {
-    const apiUrl = "$instanceUrl/api/v1/accounts/verify_credentials";
-    http.Response resp = await helper.get(apiUrl);
+    final apiUrl = "${instanceUrl!}/api/v1/accounts/verify_credentials";
+    http.Response resp = await helper!.get(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -118,10 +218,27 @@ class ApiService {
   /// all tokens from the secure storage, effectively logging the user out.
   logOut() async {
     // Revoking credentials on server's side
-    const apiUrl = "$instanceUrl/oauth/revoke";
-    await helper.post(apiUrl);
+    final apiUrl = "${instanceUrl!}/oauth/revoke";
+    await helper!.post(apiUrl);
 
     // Revoking credentials locally
-    await helper.removeAllTokens();
+    await helper!.removeAllTokens();
+
+    // Resetting state of the API service
+    await resetApiServiceState();
+  }
+
+  /// Revokes all API service credentials & state variables from the
+  /// device's secure storage, and sets their values as `null` in the
+  /// instance.
+  Future<void> resetApiServiceState() async {
+    await secureStorage.delete(key: "oauthClientId");
+    await secureStorage.delete(key: "oauthClientSecret");
+    await secureStorage.delete(key: "instanceUrl");
+
+    oauthClientId = null;
+    oauthClientSecret = null;
+    instanceUrl = null;
+    helper = null;
   }
 }

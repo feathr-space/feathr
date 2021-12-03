@@ -1,3 +1,4 @@
+import 'package:feathr/data/account.dart';
 import 'package:feathr/services/api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -10,6 +11,16 @@ setUpTestEnvVars() {
 
 getTestApiService() {
   setUpTestEnvVars();
+
   // TODO: mock for further tests
-  return ApiService();
+  final testService = ApiService();
+  testService.currentAccount = Account(
+    id: "123456",
+    username: "username",
+    displayName: "display name",
+    acct: "username",
+    isLocked: false,
+    isBot: false,
+  );
+  return testService;
 }

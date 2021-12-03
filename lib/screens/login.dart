@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:feathr/services/api.dart';
 import 'package:feathr/utils/messages.dart';
+import 'package:feathr/widgets/instance_form.dart';
 import 'package:feathr/widgets/title.dart';
 import 'package:feathr/widgets/buttons.dart';
 
@@ -37,7 +38,7 @@ class _LoginState extends State<Login> {
   }
 
   /// Obtains and stores the current version number in the widget's state.
-  fetchVersionNumber() async {
+  Future<void> fetchVersionNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       version = packageInfo.version;
@@ -46,44 +47,93 @@ class _LoginState extends State<Login> {
 
   /// Determines whether the user is logged-in or not, and sets up the widget
   /// for the next action in either case.
-  checkAuthStatus() async {
-    AccessTokenResponse? token =
-        await widget.apiService.helper.getTokenFromStorage();
+  Future<void> checkAuthStatus() async {
+    // Attempts to restore the API service status from the device's
+    // secure storage
+    await widget.apiService.loadApiServiceFromStorage();
 
-    if (token == null) {
-      return setState(() {
-        showLoginButton = true;
-      });
+    // If the previous call successfully restored the API status, then the
+    // `helper` was appropriately instanced.
+    if (widget.apiService.helper != null) {
+      AccessTokenResponse? token =
+          await widget.apiService.helper!.getTokenFromStorage();
+
+      // This would check if, besides having a working `helper`, we also have
+      // a user token stored.
+      if (token != null) {
+        // At this point we have a valid API service instance. This call will
+        // attempt to load data, and if it fails, it'd reset the API service
+        // status and come back to the log-in screen.
+        return onValidAuth();
+      }
     }
 
-    // Assuming at this point that we have a valid token.
-    // TODO: do we need to handle any other case?
-    onValidAuth();
+    // At this point, we can safely assume we need the user to log in
+    return setState(() {
+      showLoginButton = true;
+    });
   }
 
-  logInAction() async {
+  /// Displays a form that asks the user for a Mastodon instance URL and
+  /// triggers the log in process on successful submit.
+  void selectInstanceAction() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Enter your Mastodon instance"),
+        content: InstanceForm(onSuccessfulSubmit: logInAction),
+      ),
+    );
+  }
+
+  /// Helper function to report an error during the log in process, making
+  /// sure that we also clean the API state (to err on the side of caution)
+  void reportLogInError(String message) {
+    setState(() {
+      showLoginButton = true;
+    });
+    widget.apiService.resetApiServiceState();
+    showSnackBar(
+      context,
+      message,
+    );
+  }
+
+  /// Attempts to register an app on a Mastodon instance (given by its URL),
+  /// and then attempts to request the user to log in, using the API service.
+  Future<void> logInAction(String instanceUrl) async {
+    // This triggers the loading spinner. `reportLogInError` would revert this,
+    // if it gets called.
+    setState(() {
+      showLoginButton = false;
+    });
+
+    // Attempting to register `feathr` as an app on the user-specified instance
     try {
-      setState(() {
-        showLoginButton = false;
-      });
-      final account = await widget.apiService.logIn();
-      showSnackBar(
-        context,
-        "Successfully logged in. Welcome, ${account.username}!",
-      );
-      onValidAuth();
+      await widget.apiService.registerApp(instanceUrl);
     } on ApiException {
-      setState(() {
-        showLoginButton = true;
-      });
-      showSnackBar(
-        context,
-        "There was an error during the log in process.",
+      return reportLogInError(
+        "We couldn't connect to $instanceUrl as a Mastodon instance. Please check the URL and try again!",
+      );
+    }
+
+    // We could register the app succesfully. Attempting to log in the user.
+    try {
+      return onValidAuth();
+    } on ApiException {
+      return reportLogInError(
+        "We couldn't log you in with your specified credentials. Please try again!",
       );
     }
   }
 
-  onValidAuth() {
+  /// Logs in a user and routes them to the tabbed timeline view.
+  Future<void> onValidAuth() async {
+    final account = await widget.apiService.logIn();
+    showSnackBar(
+      context,
+      "Successfully logged in. Welcome, ${account.username}!",
+    );
     Navigator.pushNamedAndRemoveUntil(context, '/tabs', (route) => false);
   }
 
@@ -93,7 +143,7 @@ class _LoginState extends State<Login> {
       return "Version $version";
     }
 
-    return "Unknown version";
+    return "";
   }
 
   /// Returns either a loading indicator or a login button, depending
@@ -105,8 +155,8 @@ class _LoginState extends State<Login> {
     }
 
     return FeathrActionButton(
-      onPressed: logInAction,
-      buttonText: "Log in",
+      onPressed: selectInstanceAction,
+      buttonText: "Get started",
     );
   }
 
@@ -117,10 +167,10 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 const Center(
                   child: TitleWidget("feathr"),
                 ),
