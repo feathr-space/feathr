@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import 'package:feathr/data/account.dart';
 import 'package:feathr/services/api.dart';
-import 'package:feathr/screens/home.dart';
-import 'package:feathr/screens/local.dart';
-import 'package:feathr/screens/fedi.dart';
 import 'package:feathr/utils/messages.dart';
 import 'package:feathr/widgets/drawer.dart';
+import 'package:feathr/widgets/timeline.dart';
 
-/// The [Tabs] widget represents the tab wrapper for the main
+/// The [TimelineTabs] widget represents the tab wrapper for the main
 /// view of the Feathr app.
-class Tabs extends StatefulWidget {
+class TimelineTabs extends StatefulWidget {
   /// Title to use in the Scaffold
   static const String title = 'feathr';
 
   /// Main instance of the API service to use in the widget.
   final ApiService apiService;
 
-  const Tabs({Key? key, required this.apiService}) : super(key: key);
+  const TimelineTabs({Key? key, required this.apiService}) : super(key: key);
 
   @override
-  State<Tabs> createState() => _TabsState();
+  State<TimelineTabs> createState() => _TimelineTabsState();
 }
 
-/// The [_TabsState] class wraps up logic and state for the [Tabs] screen.
-class _TabsState extends State<Tabs> {
+/// The [_TimelineTabsState] class wraps up logic and state for the [TimelineTabs] screen.
+class _TimelineTabsState extends State<TimelineTabs> {
   Account? account;
 
   @override
@@ -79,26 +79,45 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Timeline> tabs = [
+      Timeline(
+        apiService: widget.apiService,
+        timelineType: TimelineType.home,
+        tabIcon: const Tab(
+          icon: Icon(FeatherIcons.home),
+          text: "Home",
+        ),
+      ),
+      Timeline(
+        apiService: widget.apiService,
+        timelineType: TimelineType.local,
+        tabIcon: const Tab(
+          icon: Icon(FeatherIcons.monitor),
+          text: "Local",
+        ),
+      ),
+      Timeline(
+        apiService: widget.apiService,
+        timelineType: TimelineType.fedi,
+        tabIcon: const Tab(
+          icon: Icon(FeatherIcons.globe),
+          text: "Fedi",
+        ),
+      ),
+    ];
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(Tabs.title),
-          bottom: const TabBar(
-            tabs: [
-              Home.tabIcon,
-              Local.tabIcon,
-              Fedi.tabIcon,
-            ],
+          title: const Text(TimelineTabs.title),
+          bottom: TabBar(
+            tabs: tabs.map((tab) => tab.tabIcon).toList(),
           ),
         ),
         drawer: getDrawer(context),
-        body: const TabBarView(
-          children: [
-            Home(),
-            Local(),
-            Fedi(),
-          ],
+        body: TabBarView(
+          children: tabs,
         ),
       ),
     );

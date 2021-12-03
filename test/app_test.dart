@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:feathr/app.dart';
 import 'package:feathr/screens/login.dart';
-import 'package:feathr/utils/tabs.dart';
+import 'package:feathr/screens/timeline_tabs.dart';
 import 'package:feathr/widgets/title.dart';
 
 import 'utils.dart';
@@ -15,7 +15,7 @@ void main() {
 
     // Expect to find our Login view
     expect(find.byType(Login), findsOneWidget);
-    expect(find.byType(Tabs), findsNothing);
+    expect(find.byType(TimelineTabs), findsNothing);
 
     // Expect to find the title of the app
     expect(find.byType(TitleWidget), findsOneWidget);

@@ -5,7 +5,7 @@ import 'package:feathr/themes/light.dart';
 
 import 'package:feathr/services/api.dart';
 import 'package:feathr/screens/login.dart';
-import 'package:feathr/utils/tabs.dart';
+import 'package:feathr/screens/timeline_tabs.dart';
 
 /// [FeathrApp] is the main, entry widget of the Feathr application.
 class FeathrApp extends StatelessWidget {
@@ -24,7 +24,7 @@ class FeathrApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => Login(apiService: apiService),
-        '/tabs': (context) => Tabs(apiService: apiService),
+        '/tabs': (context) => TimelineTabs(apiService: apiService),
       },
     );
   }
