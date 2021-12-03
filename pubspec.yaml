@@ -51,6 +51,9 @@ dependencies:
   # Used within the timeline view
   infinite_scroll_pagination: ^3.1.0
 
+  # Used to render the content of statuses (toots)
+  flutter_html: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

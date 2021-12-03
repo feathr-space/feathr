@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_html/flutter_html.dart';
+
 import 'package:feathr/data/status.dart';
 
 /// The [StatusCard] widget wraps and displays information for a given
@@ -31,10 +33,14 @@ class StatusCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              status.content,
-              style: TextStyle(color: Colors.white.withOpacity(0.6)),
+            padding: const EdgeInsets.all(8.0),
+            child: Html(
+              data: status.content,
+              style: {
+                'p': Style(
+                  color: Colors.white.withOpacity(0.6),
+                )
+              },
             ),
           ),
           // TODO: add a button bar
