@@ -36,8 +36,10 @@ class _TimelineState extends State<Timeline> {
   static const _pageSize = 25;
 
   /// Controller for the paged list of posts.
-  final PagingController<String?, Status> _pagingController =
-      PagingController(firstPageKey: null);
+  final PagingController<String?, Status> _pagingController = PagingController(
+    firstPageKey: null,
+    invisibleItemsThreshold: 5,
+  );
 
   @override
   void initState() {
