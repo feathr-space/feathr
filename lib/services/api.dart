@@ -206,6 +206,78 @@ class ApiService {
     );
   }
 
+  /// Given a [Status]'s ID, requests the Mastodon API to favorite
+  /// the status. Note that this is idempotent: an already-favorited
+  /// status will remain favorited. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> favoriteStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/favourite";
+    http.Response resp = await helper!.post(apiUrl);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `favoriteStatus`",
+    );
+  }
+
+  /// Given a [Status]'s ID, requests the Mastodon API to un-favorite
+  /// the status. Note that this is idempotent: a non-favorited
+  /// status will remain non-favorited. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> undoFavoriteStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unfavourite";
+    http.Response resp = await helper!.post(apiUrl);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `undoFavoriteStatus`",
+    );
+  }
+
+  /// Given a [Status]'s ID, requests the Mastodon API to bookmark
+  /// the status. Note that this is idempotent: an already-bookmarked
+  /// status will remain bookmarked. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> bookmarkStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/bookmark";
+    http.Response resp = await helper!.post(apiUrl);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `bookmarkStatus`",
+    );
+  }
+
+  /// Given a [Status]'s ID, requests the Mastodon API to un-bookmark
+  /// the status. Note that this is idempotent: a non-bookmarked
+  /// status will remain non-bookmarked. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> undoBookmarkStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unbookmark";
+    http.Response resp = await helper!.post(apiUrl);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `undoBookmarkStatus`",
+    );
+  }
+
   /// Performs an authenticated query to the API in order to force the log-in
   /// view. In the process, sets the `this.currentAccount` instance attribute.
   Future<Account> logIn() async {

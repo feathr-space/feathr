@@ -81,6 +81,7 @@ class _TimelineState extends State<Timeline> {
           builderDelegate: PagedChildBuilderDelegate<Status>(
             itemBuilder: (context, item, index) => StatusCard(
               item,
+              apiService: widget.apiService,
             ),
           ),
         ),
