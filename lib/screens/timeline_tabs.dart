@@ -61,6 +61,13 @@ class _TimelineTabsState extends State<TimelineTabs> {
         children: <Widget>[
           getDrawerHeader(),
           ListTile(
+            title: const Text('About feathr'),
+            onTap: () async {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/about');
+            },
+          ),
+          ListTile(
             title: const Text('Log out'),
             onTap: () async {
               await widget.apiService.logOut();

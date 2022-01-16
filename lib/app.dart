@@ -4,6 +4,7 @@ import 'package:feathr/themes/dark.dart';
 import 'package:feathr/themes/light.dart';
 
 import 'package:feathr/services/api.dart';
+import 'package:feathr/screens/about.dart';
 import 'package:feathr/screens/login.dart';
 import 'package:feathr/screens/timeline_tabs.dart';
 
@@ -25,6 +26,7 @@ class FeathrApp extends StatelessWidget {
       routes: {
         '/login': (context) => Login(apiService: apiService),
         '/tabs': (context) => TimelineTabs(apiService: apiService),
+        '/about': (context) => const About(),
       },
     );
   }
