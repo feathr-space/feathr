@@ -9,6 +9,9 @@ void main() {
       Map<String, dynamic> data = {
         "id": "11223344",
         "content": "<p>I am a toot!</p>",
+        "favourited": true,
+        "bookmarked": false,
+        "reblogged": true,
         "account": {
           "id": "this is an id",
           "username": "username123",
@@ -24,6 +27,9 @@ void main() {
       final status = Status.fromJson(data);
       expect(status.id, equals("11223344"));
       expect(status.content, equals("<p>I am a toot!</p>"));
+      expect(status.favorited, isTrue);
+      expect(status.bookmarked, isFalse);
+      expect(status.reblogged, isTrue);
       expect(status.account.id, equals("this is an id"));
       expect(status.account.username, equals("username123"));
       expect(status.account.displayName, equals("user display name"));

@@ -15,7 +15,23 @@ class Status {
   /// [Account] instance of the user that created this status
   final Account account;
 
-  Status({required this.id, required this.content, required this.account});
+  /// Whether or not the user has favorited this status
+  final bool favorited;
+
+  /// Whether or not the user has reblogged (boosted, retooted) this status
+  final bool reblogged;
+
+  /// Whether or not the user has bookmarked this status
+  final bool bookmarked;
+
+  Status({
+    required this.id,
+    required this.content,
+    required this.account,
+    required this.favorited,
+    required this.reblogged,
+    required this.bookmarked,
+  });
 
   /// Given a Json-like [Map] with information for a status,
   /// build and return the respective [Status] instance.
@@ -24,6 +40,9 @@ class Status {
       id: data["id"]!,
       content: data["content"]!,
       account: Account.fromJson(data["account"]!),
+      favorited: data["favourited"]!,
+      reblogged: data["reblogged"]!,
+      bookmarked: data["bookmarked"]!,
     );
   }
 }
