@@ -5,10 +5,28 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:feathr/services/api.dart';
+import 'package:oauth2_client/oauth2_helper.dart';
 import 'api_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
+  test('setHelper properly creates an OauthHelper if/when needed', () async {
+    final apiService = ApiService();
+    expect(apiService.oauthClientId, isNull);
+    expect(apiService.oauthClientSecret, isNull);
+    expect(apiService.instanceUrl, isNull);
+
+    expect(apiService.helper, isNull);
+    apiService.setHelper();
+    expect(apiService.helper, isNull);
+
+    apiService.instanceUrl = "https://example.org";
+    apiService.oauthClientId = "test12345";
+    apiService.oauthClientSecret = "test98765";
+    apiService.setHelper();
+    expect(apiService.helper, isA<OAuth2Helper>());
+  });
+
   group('ApiService.getClientCredentials', () {
     test(
       'getClientCredentials stores app credentials on a successful api request',
