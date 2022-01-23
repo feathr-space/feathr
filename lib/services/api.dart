@@ -41,6 +41,9 @@ class ApiService {
   /// [Account] instance of the current logged-in user.
   Account? currentAccount;
 
+  /// [http.Client] instance to perform queries (is overriden for tests)
+  http.Client httpClient = http.Client();
+
   /// Registers a new `app` on a Mastodon instance and sets the client tokens on
   /// the current state of the API service instance
   Future<void> getClientCredentials() async {
@@ -49,7 +52,7 @@ class ApiService {
     // Attempting to register the app
     http.Response resp;
     try {
-      resp = await http.post(
+      resp = await httpClient.post(
         Uri.parse(apiUrl),
         body: {
           "client_name": "feathr",
@@ -161,7 +164,7 @@ class ApiService {
       apiUrl += "?max_id=$maxId";
     }
 
-    http.Response resp = await helper!.get(apiUrl);
+    http.Response resp = await helper!.get(apiUrl, httpClient: httpClient);
     if (resp.statusCode == 200) {
       // The response is a list of json objects
       List<dynamic> jsonDataList = jsonDecode(resp.body);
@@ -193,7 +196,7 @@ class ApiService {
   /// instance attribute in the process.
   Future<Account> getAccount() async {
     final apiUrl = "${instanceUrl!}/api/v1/accounts/verify_credentials";
-    http.Response resp = await helper!.get(apiUrl);
+    http.Response resp = await helper!.get(apiUrl, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -212,7 +215,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> favoriteStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/favourite";
-    http.Response resp = await helper!.post(apiUrl);
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -230,7 +233,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> undoFavoriteStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unfavourite";
-    http.Response resp = await helper!.post(apiUrl);
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -248,7 +251,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> bookmarkStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/bookmark";
-    http.Response resp = await helper!.post(apiUrl);
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -266,7 +269,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> undoBookmarkStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unbookmark";
-    http.Response resp = await helper!.post(apiUrl);
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -291,7 +294,7 @@ class ApiService {
   logOut() async {
     // Revoking credentials on server's side
     final apiUrl = "${instanceUrl!}/oauth/revoke";
-    await helper!.post(apiUrl);
+    await helper!.post(apiUrl, httpClient: httpClient);
 
     // Revoking credentials locally
     await helper!.removeAllTokens();
