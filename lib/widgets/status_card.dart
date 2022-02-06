@@ -70,6 +70,23 @@ class _StatusCardState extends State<StatusCard> {
     });
   }
 
+  /// Makes a call unto the Mastodon API in order to (un)boost the current
+  /// toot, and updates the toot's state in the current widget accordingly.
+  Future<void> onBoostPress() async {
+    Status newStatus;
+
+    // TODO: handle error cases
+    if (status.reblogged) {
+      newStatus = await widget.apiService.undoBoostStatus(status.id);
+    } else {
+      newStatus = await widget.apiService.boostStatus(status.id);
+    }
+
+    setState(() {
+      status = newStatus;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: display more information on each status
@@ -113,8 +130,7 @@ class _StatusCardState extends State<StatusCard> {
             alignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                // TODO: boost action
-                onPressed: () {},
+                onPressed: onBoostPress,
                 tooltip: "Boost",
                 icon: const Icon(FeatherIcons.repeat),
                 color: status.reblogged ? Colors.green : null,

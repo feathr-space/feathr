@@ -281,6 +281,42 @@ class ApiService {
     );
   }
 
+  /// Given a [Status]'s ID, requests the Mastodon API to boost
+  /// the status. Note that this is idempotent: an already-boosted
+  /// status will remain boosted. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> boostStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/reblog";
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData["reblog"]);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `boostStatus`",
+    );
+  }
+
+  /// Given a [Status]'s ID, requests the Mastodon API to un-boost
+  /// the status. Note that this is idempotent: a non-boosted
+  /// status will remain non-boosted. Returns the (new) [Status] instance
+  /// the API responds with.
+  Future<Status> undoBoostStatus(String statusId) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unreblog";
+    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData["reblog"]);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `undoBoostStatus`",
+    );
+  }
+
   /// Performs an authenticated query to the API in order to force the log-in
   /// view. In the process, sets the `this.currentAccount` instance attribute.
   Future<Account> logIn() async {
