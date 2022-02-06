@@ -20,6 +20,8 @@ class ApiException implements Exception {
 /// a Mastodon timeline.
 enum TimelineType { home, local, fedi }
 
+/// [ApiService] holds a collection of useful auxiliary functions to
+/// interact with Mastodon's API.
 class ApiService {
   /// Access to the device's secure storage to persist session values
   static const FlutterSecureStorage secureStorage = FlutterSecureStorage();
@@ -43,6 +45,16 @@ class ApiService {
 
   /// [http.Client] instance to perform queries (is overriden for tests)
   http.Client httpClient = http.Client();
+
+  /// Performs a GET request to the specified URL through the API helper
+  Future<http.Response> _apiGet(String url) async {
+    return await helper!.get(url, httpClient: httpClient);
+  }
+
+  /// Performs a POST request to the specified URL through the API helper
+  Future<http.Response> _apiPost(String url) async {
+    return await helper!.post(url, httpClient: httpClient);
+  }
 
   /// Registers a new `app` on a Mastodon instance and sets the client tokens on
   /// the current state of the API service instance
@@ -164,7 +176,7 @@ class ApiService {
       apiUrl += "?max_id=$maxId";
     }
 
-    http.Response resp = await helper!.get(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiGet(apiUrl);
     if (resp.statusCode == 200) {
       // The response is a list of json objects
       List<dynamic> jsonDataList = jsonDecode(resp.body);
@@ -196,7 +208,7 @@ class ApiService {
   /// instance attribute in the process.
   Future<Account> getAccount() async {
     final apiUrl = "${instanceUrl!}/api/v1/accounts/verify_credentials";
-    http.Response resp = await helper!.get(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiGet(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -215,7 +227,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> favoriteStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/favourite";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -233,7 +245,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> undoFavoriteStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unfavourite";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -251,7 +263,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> bookmarkStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/bookmark";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -269,7 +281,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> undoBookmarkStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unbookmark";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -287,7 +299,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> boostStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/reblog";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -305,7 +317,7 @@ class ApiService {
   /// the API responds with.
   Future<Status> undoBoostStatus(String statusId) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses/$statusId/unreblog";
-    http.Response resp = await helper!.post(apiUrl, httpClient: httpClient);
+    http.Response resp = await _apiPost(apiUrl);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -327,10 +339,10 @@ class ApiService {
 
   /// Invalidates the stored client tokens server-side and then deletes
   /// all tokens from the secure storage, effectively logging the user out.
-  logOut() async {
+  Future<void> logOut() async {
     // Revoking credentials on server's side
     final apiUrl = "${instanceUrl!}/oauth/revoke";
-    await helper!.post(apiUrl, httpClient: httpClient);
+    await _apiPost(apiUrl);
 
     // Revoking credentials locally
     await helper!.removeAllTokens();
