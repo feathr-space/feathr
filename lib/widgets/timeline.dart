@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:feathr/data/status.dart';
 import 'package:feathr/services/api.dart';
 import 'package:feathr/widgets/status_card.dart';
+import 'package:feathr/utils/messages.dart';
 
 /// The [Timeline] widget represents a specific timeline view, able to
 /// endlessly scroll and request posts from Mastodon's API using the
@@ -66,8 +67,12 @@ class _TimelineState extends State<Timeline> {
         _pagingController.appendPage(newStatuses, nextPageKey);
       }
     } catch (error) {
-      // TODO: improve error handling (show a message)
       _pagingController.error = error;
+
+      showSnackBar(
+        context,
+        "An error occurred when trying to load new statuses...",
+      );
     }
   }
 
