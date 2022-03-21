@@ -6,6 +6,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:feathr/data/status.dart';
+import 'package:feathr/utils/messages.dart';
 
 /// The [StatusCard] widget wraps and displays information for a given
 /// [Status] instance.
@@ -41,11 +42,18 @@ class _StatusCardState extends State<StatusCard> {
   Future<void> onFavoritePress() async {
     Status newStatus;
 
-    // TODO: handle error cases
-    if (status.favorited) {
-      newStatus = await widget.apiService.undoFavoriteStatus(status.id);
-    } else {
-      newStatus = await widget.apiService.favoriteStatus(status.id);
+    try {
+      if (status.favorited) {
+        newStatus = await widget.apiService.undoFavoriteStatus(status.id);
+      } else {
+        newStatus = await widget.apiService.favoriteStatus(status.id);
+      }
+    } on ApiException {
+      showSnackBar(
+        context,
+        "We couldn't perform that action, please try again!",
+      );
+      return;
     }
 
     setState(() {
@@ -58,11 +66,18 @@ class _StatusCardState extends State<StatusCard> {
   Future<void> onBookmarkPress() async {
     Status newStatus;
 
-    // TODO: handle error cases
-    if (status.bookmarked) {
-      newStatus = await widget.apiService.undoBookmarkStatus(status.id);
-    } else {
-      newStatus = await widget.apiService.bookmarkStatus(status.id);
+    try {
+      if (status.bookmarked) {
+        newStatus = await widget.apiService.undoBookmarkStatus(status.id);
+      } else {
+        newStatus = await widget.apiService.bookmarkStatus(status.id);
+      }
+    } on ApiException {
+      showSnackBar(
+        context,
+        "We couldn't perform that action, please try again!",
+      );
+      return;
     }
 
     setState(() {
@@ -75,11 +90,18 @@ class _StatusCardState extends State<StatusCard> {
   Future<void> onBoostPress() async {
     Status newStatus;
 
-    // TODO: handle error cases
-    if (status.reblogged) {
-      newStatus = await widget.apiService.undoBoostStatus(status.id);
-    } else {
-      newStatus = await widget.apiService.boostStatus(status.id);
+    try {
+      if (status.reblogged) {
+        newStatus = await widget.apiService.undoBoostStatus(status.id);
+      } else {
+        newStatus = await widget.apiService.boostStatus(status.id);
+      }
+    } on ApiException {
+      showSnackBar(
+        context,
+        "We couldn't perform that action, please try again!",
+      );
+      return;
     }
 
     setState(() {
