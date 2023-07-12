@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:feathr/screens/about.dart';
 
 void main() {
-  testWidgets('TimelineTabs wrapper has three tabs',
+  testWidgets('About screen is rendered properly',
       (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: About()));
 
