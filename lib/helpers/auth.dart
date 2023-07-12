@@ -38,7 +38,7 @@ OAuth2Helper getOauthHelper(
 
   return OAuth2Helper(
     oauthClient,
-    grantType: OAuth2Helper.AUTHORIZATION_CODE,
+    grantType: OAuth2Helper.authorizationCode,
     clientId: oauthClientId,
     clientSecret: oauthClientSecret,
     scopes: oauthScopes,

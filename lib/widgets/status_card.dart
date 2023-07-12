@@ -39,7 +39,7 @@ class _StatusCardState extends State<StatusCard> {
 
   /// Makes a call unto the Mastodon API in order to (un)favorite the current
   /// toot, and updates the toot's state in the current widget accordingly.
-  Future<void> onFavoritePress() async {
+  void onFavoritePress() async {
     Status newStatus;
 
     try {
@@ -63,7 +63,7 @@ class _StatusCardState extends State<StatusCard> {
 
   /// Makes a call unto the Mastodon API in order to (un)bookmark the current
   /// toot, and updates the toot's state in the current widget accordingly.
-  Future<void> onBookmarkPress() async {
+  void onBookmarkPress() async {
     Status newStatus;
 
     try {
@@ -87,7 +87,7 @@ class _StatusCardState extends State<StatusCard> {
 
   /// Makes a call unto the Mastodon API in order to (un)boost the current
   /// toot, and updates the toot's state in the current widget accordingly.
-  Future<void> onBoostPress() async {
+  void onBoostPress() async {
     Status newStatus;
 
     try {
@@ -143,8 +143,8 @@ class _StatusCardState extends State<StatusCard> {
                 )
               },
               // TODO: handle @mentions and #hashtags differently
-              onLinkTap: (url, renderContext, attributes, element) => {
-                if (url != null) {launch(url)}
+              onLinkTap: (url, renderContext, attributes) => {
+                if (url != null) {launchUrl(Uri.parse(url))}
               },
             ),
           ),

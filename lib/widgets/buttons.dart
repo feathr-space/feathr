@@ -14,6 +14,7 @@ class FeathrActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
       child: Text(
         buttonText,
         style: const TextStyle(
@@ -21,7 +22,6 @@ class FeathrActionButton extends StatelessWidget {
           fontSize: 18,
         ),
       ),
-      style: ElevatedButton.styleFrom(primary: Colors.teal),
     );
   }
 }

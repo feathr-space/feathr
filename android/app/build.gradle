@@ -43,8 +43,8 @@ android {
 
     defaultConfig {
         applicationId "space.feathr.app"
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 23
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [

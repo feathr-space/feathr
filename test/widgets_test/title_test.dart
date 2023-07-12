@@ -6,8 +6,8 @@ import 'package:feathr/widgets/title.dart';
 void main() {
   testWidgets('Title widget renders properly', (WidgetTester tester) async {
     await tester.pumpWidget(const Directionality(
-      child: TitleWidget("I am a title!"),
       textDirection: TextDirection.ltr,
+      child: TitleWidget("I am a title!"),
     ));
     expect(find.byType(Text), findsOneWidget);
     expect(find.text('I am a title!'), findsOneWidget);

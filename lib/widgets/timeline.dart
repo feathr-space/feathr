@@ -28,11 +28,11 @@ class Timeline extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TimelineState createState() => _TimelineState();
+  TimelineState createState() => TimelineState();
 }
 
-/// The [_TimelineState] class wraps up logic and state for the [Timeline] screen.
-class _TimelineState extends State<Timeline> {
+/// The [TimelineState] class wraps up logic and state for the [Timeline] screen.
+class TimelineState extends State<Timeline> {
   /// Amount of statuses to be requested from the API on each call.
   static const _pageSize = 25;
 

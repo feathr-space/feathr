@@ -17,14 +17,14 @@ class InstanceForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _InstanceFormState createState() {
-    return _InstanceFormState();
+  InstanceFormState createState() {
+    return InstanceFormState();
   }
 }
 
-/// The [_InstanceFormState] class wraps up logic and state for
+/// The [InstanceFormState] class wraps up logic and state for
 /// the [InstanceForm] screen.
-class _InstanceFormState extends State<InstanceForm> {
+class InstanceFormState extends State<InstanceForm> {
   /// Global key that uniquely identifies this form.
   final _formKey = GlobalKey<FormState>();
 

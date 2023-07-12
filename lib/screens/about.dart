@@ -10,11 +10,11 @@ class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
 
   @override
-  _AboutState createState() => _AboutState();
+  AboutState createState() => AboutState();
 }
 
-/// [_AboutState] wraps the logic and state for the [About] screen.
-class _AboutState extends State<About> {
+/// [AboutState] wraps the logic and state for the [About] screen.
+class AboutState extends State<About> {
   /// Version of the current build of the app, obtained asynchronously.
   String? version;
 

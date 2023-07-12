@@ -128,13 +128,16 @@ class _LoginState extends State<Login> {
   }
 
   /// Logs in a user and routes them to the tabbed timeline view.
-  Future<void> onValidAuth() async {
+  void onValidAuth() async {
     final account = await widget.apiService.logIn();
-    showSnackBar(
-      context,
-      "Successfully logged in. Welcome, ${account.username}!",
-    );
-    Navigator.pushNamedAndRemoveUntil(context, '/tabs', (route) => false);
+
+    if (context.mounted) {
+      showSnackBar(
+        context,
+        "Successfully logged in. Welcome, ${account.username}!",
+      );
+      Navigator.pushNamedAndRemoveUntil(context, '/tabs', (route) => false);
+    }
   }
 
   /// Returns a version tag as a `String`.
