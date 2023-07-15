@@ -36,10 +36,10 @@ dependencies:
 
   # Icon collections and helpers
   flutter_feather_icons: ^2.0.0+1
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.13.1
 
   # Helper to display build information and version within the app
-  package_info_plus: ^3.1.2
+  package_info_plus: ^4.0.2
 
   # Network request helpers
   http: ^0.13.6
