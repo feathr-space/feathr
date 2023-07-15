@@ -73,12 +73,12 @@ class _TimelineTabsState extends State<TimelineTabs> {
               await widget.apiService.logOut();
 
               if (context.mounted) {
-              showSnackBar(context, "Logged out successfully. Goodbye!");
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login',
-                (route) => false,
-              );
+                showSnackBar(context, "Logged out successfully. Goodbye!");
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login',
+                  (route) => false,
+                );
               }
             },
           ),

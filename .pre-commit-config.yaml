@@ -1,10 +1,13 @@
 repos:
-  - repo: https://github.com/Cretezy/dart-format-pre-commit
-    rev: "fa83c73f40014f9e268bd0e62374eaa581fe3540"
+  - repo: local
     hooks:
-    - id: dart-format
-      files: lib/|test/
-  - repo: https://github.com/dluksza/flutter-analyze-pre-commit
-    rev: "4afcaa82fc368d40d486256bf4edba329bf667bb"
-    hooks:
+      - id: dart-format
+        language: system
+        name: Format Dart Code
+        entry: dart format --output write --set-exit-if-changed
+        files: lib/|test/
       - id: flutter-analyze
+        language: system
+        name: Analyze Flutter Code
+        entry: flutter analyze
+        files: lib/|test/

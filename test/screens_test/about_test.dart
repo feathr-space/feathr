@@ -4,8 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:feathr/screens/about.dart';
 
 void main() {
-  testWidgets('About screen is rendered properly',
-      (WidgetTester tester) async {
+  testWidgets('About screen is rendered properly', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: About()));
 
     expect(find.byType(About), findsOneWidget);
