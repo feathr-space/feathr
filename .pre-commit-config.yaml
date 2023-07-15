@@ -1,10 +1,10 @@
 repos:
-  - repo: https://github.com/Cretezy/flutter-format-pre-commit
-    rev: "4a1df675bb74dea371c17934933e257e46f8dd98"
+  - repo: https://github.com/Cretezy/dart-format-pre-commit
+    rev: "fa83c73f40014f9e268bd0e62374eaa581fe3540"
     hooks:
-      - id: flutter-format
-        files: lib/
+    - id: dart-format
+      files: lib/|test/
   - repo: https://github.com/dluksza/flutter-analyze-pre-commit
-    rev: "0bfdb7415bb2d02794a884bf2b763a92772001eb"
+    rev: "4afcaa82fc368d40d486256bf4edba329bf667bb"
     hooks:
       - id: flutter-analyze

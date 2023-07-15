@@ -17,6 +17,8 @@ jobs:
       run: flutter pub get
     - name: Analyze code
       run: flutter analyze
+    - name: Verify if code is formatted properly
+      run: dart format -o show --set-exit-if-changed .
     - name: Run tests
       run: flutter test --coverage --reporter expanded
     - name: Upload coverage to codecov
