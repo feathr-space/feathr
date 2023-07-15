@@ -360,5 +360,139 @@ void main() {
         );
       },
     );
+
+    test(
+      'boostStatus performs favorite action successfully',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        const testStatusId = "12345";
+
+        when(mockHelper.post(
+                "https://example.org/api/v1/statuses/$testStatusId/reblog",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"reblog":{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            200,
+          ),
+        );
+
+        final outputStatus = await apiService.boostStatus(testStatusId);
+        expect(outputStatus.id, equals(testStatusId));
+        expect(outputStatus.content, equals("<p>I am a toot!</p>"));
+        expect(outputStatus.favorited, isTrue);
+        expect(outputStatus.bookmarked, isTrue);
+        expect(outputStatus.reblogged, isTrue);
+        expect(outputStatus.account.id, equals("this is an id"));
+        expect(outputStatus.account.username, equals("username123"));
+        expect(outputStatus.account.displayName, equals("user display name"));
+        expect(outputStatus.account.isLocked, isFalse);
+        expect(outputStatus.account.isBot, isTrue);
+        expect(outputStatus.account.avatarUrl, equals("avatar-url"));
+        expect(outputStatus.account.headerUrl, equals("header-url"));
+      },
+    );
+
+    test(
+      'boostStatus handles api errors as expected',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        const testStatusId = "12345";
+
+        when(mockHelper.post(
+                "https://example.org/api/v1/statuses/$testStatusId/reblog",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"error": "Error message"}',
+            422,
+          ),
+        );
+
+        expect(
+          () async => await apiService.boostStatus(testStatusId),
+          throwsA(isA<ApiException>()),
+        );
+      },
+    );
+
+    test(
+      'undoBoostStatus performs favorite action successfully',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        const testStatusId = "12345";
+
+        when(mockHelper.post(
+                "https://example.org/api/v1/statuses/$testStatusId/unreblog",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"reblog":{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            200,
+          ),
+        );
+
+        final outputStatus = await apiService.undoBoostStatus(testStatusId);
+        expect(outputStatus.id, equals(testStatusId));
+        expect(outputStatus.content, equals("<p>I am a toot!</p>"));
+        expect(outputStatus.favorited, isTrue);
+        expect(outputStatus.bookmarked, isTrue);
+        expect(outputStatus.reblogged, isTrue);
+        expect(outputStatus.account.id, equals("this is an id"));
+        expect(outputStatus.account.username, equals("username123"));
+        expect(outputStatus.account.displayName, equals("user display name"));
+        expect(outputStatus.account.isLocked, isFalse);
+        expect(outputStatus.account.isBot, isTrue);
+        expect(outputStatus.account.avatarUrl, equals("avatar-url"));
+        expect(outputStatus.account.headerUrl, equals("header-url"));
+      },
+    );
+
+    test(
+      'undoBoostStatus handles api errors as expected',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        const testStatusId = "12345";
+
+        when(mockHelper.post(
+                "https://example.org/api/v1/statuses/$testStatusId/unreblog",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"error": "Error message"}',
+            422,
+          ),
+        );
+
+        expect(
+          () async => await apiService.undoBoostStatus(testStatusId),
+          throwsA(isA<ApiException>()),
+        );
+      },
+    );
   });
 }
