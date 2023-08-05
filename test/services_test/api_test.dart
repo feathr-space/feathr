@@ -1,3 +1,4 @@
+import 'package:feathr/data/account.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' as http;
@@ -496,7 +497,7 @@ void main() {
     );
 
     test(
-      'getAccount performs favorite action successfully',
+      'getAccount retrieves user from api successfully',
       () async {
         final mockClient = MockClient();
         final mockHelper = MockOAuth2Helper();
@@ -553,6 +554,89 @@ void main() {
         expect(apiService.currentAccount, isNull);
         expect(
           () async => await apiService.getAccount(),
+          throwsA(isA<ApiException>()),
+        );
+        expect(apiService.currentAccount, isNull);
+      },
+    );
+
+    test('getCurrentAccount retrieves user from cache if exists', () async {
+      final apiService = ApiService();
+      apiService.instanceUrl = "https://example.org";
+
+      final testAccount = Account(
+          id: "12345",
+          username: "test",
+          displayName: "test username",
+          acct: "test",
+          isLocked: false,
+          isBot: false);
+      apiService.currentAccount = testAccount;
+
+      // we don't mockup calls so this testt will fail if it tries to call the apis
+      final outputAccount = await apiService.getCurrentAccount();
+      expect(outputAccount, isNotNull);
+      expect(outputAccount, equals(testAccount));
+    });
+
+    test(
+      'getCurrentAccount retrieves user from api when needed successfully',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        when(mockHelper.get(
+                "https://example.org/api/v1/accounts/verify_credentials",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}',
+            200,
+          ),
+        );
+
+        expect(apiService.currentAccount, isNull);
+        final outputAccount = await apiService.getCurrentAccount();
+        expect(apiService.currentAccount, isNotNull);
+        expect(apiService.currentAccount, equals(outputAccount));
+
+        expect(outputAccount.id, equals("this is an id"));
+        expect(outputAccount.username, equals("username123"));
+        expect(outputAccount.displayName, equals("user display name"));
+        expect(outputAccount.isLocked, isFalse);
+        expect(outputAccount.isBot, isTrue);
+        expect(outputAccount.avatarUrl, equals("avatar-url"));
+        expect(outputAccount.headerUrl, equals("header-url"));
+      },
+    );
+
+    test(
+      'getCurrentAccount handles api errors as expected',
+      () async {
+        final mockClient = MockClient();
+        final mockHelper = MockOAuth2Helper();
+        final apiService = ApiService();
+        apiService.helper = mockHelper;
+        apiService.httpClient = mockClient;
+        apiService.instanceUrl = "https://example.org";
+
+        when(mockHelper.get(
+                "https://example.org/api/v1/accounts/verify_credentials",
+                httpClient: mockClient))
+            .thenAnswer(
+          (_) async => http.Response(
+            '{"error": "Error message"}',
+            422,
+          ),
+        );
+
+        expect(apiService.currentAccount, isNull);
+        expect(
+          () async => await apiService.getCurrentAccount(),
           throwsA(isA<ApiException>()),
         );
         expect(apiService.currentAccount, isNull);
