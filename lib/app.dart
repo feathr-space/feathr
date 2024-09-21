@@ -10,7 +10,7 @@ import 'package:feathr/screens/timeline_tabs.dart';
 
 /// [FeathrApp] is the main, entry widget of the Feathr application.
 class FeathrApp extends StatelessWidget {
-  FeathrApp({Key? key}) : super(key: key);
+  FeathrApp({super.key});
 
   /// Main instance of the API service to be used across the app.
   final apiService = ApiService();

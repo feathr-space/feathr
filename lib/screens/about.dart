@@ -7,7 +7,7 @@ import 'package:feathr/widgets/title.dart';
 /// The [About] screen displays information about the `Feather` project, its
 /// license, contributors, URLs, version and credits, among other things.
 class About extends StatefulWidget {
-  const About({Key? key}) : super(key: key);
+  const About({super.key});
 
   @override
   AboutState createState() => AboutState();

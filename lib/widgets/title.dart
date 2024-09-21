@@ -6,7 +6,7 @@ class TitleWidget extends StatelessWidget {
   /// String to render within the widget.
   final String title;
 
-  const TitleWidget(this.title, {Key? key}) : super(key: key);
+  const TitleWidget(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {

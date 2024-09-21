@@ -19,9 +19,9 @@ class StatusCard extends StatefulWidget {
 
   const StatusCard(
     this.initialStatus, {
-    Key? key,
+    super.key,
     required this.apiService,
-  }) : super(key: key);
+  });
 
   @override
   State<StatusCard> createState() => _StatusCardState();
@@ -49,10 +49,12 @@ class _StatusCardState extends State<StatusCard> {
         newStatus = await widget.apiService.favoriteStatus(status.id);
       }
     } on ApiException {
-      showSnackBar(
-        context,
-        "We couldn't perform that action, please try again!",
-      );
+      if (mounted) {
+        showSnackBar(
+          context,
+          "We couldn't perform that action, please try again!",
+        );
+      }
       return;
     }
 
@@ -73,10 +75,12 @@ class _StatusCardState extends State<StatusCard> {
         newStatus = await widget.apiService.bookmarkStatus(status.id);
       }
     } on ApiException {
-      showSnackBar(
-        context,
-        "We couldn't perform that action, please try again!",
-      );
+      if (mounted) {
+        showSnackBar(
+          context,
+          "We couldn't perform that action, please try again!",
+        );
+      }
       return;
     }
 
@@ -97,10 +101,12 @@ class _StatusCardState extends State<StatusCard> {
         newStatus = await widget.apiService.boostStatus(status.id);
       }
     } on ApiException {
-      showSnackBar(
-        context,
-        "We couldn't perform that action, please try again!",
-      );
+      if (mounted) {
+        showSnackBar(
+          context,
+          "We couldn't perform that action, please try again!",
+        );
+      }
       return;
     }
 

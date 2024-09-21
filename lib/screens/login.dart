@@ -16,7 +16,7 @@ class Login extends StatefulWidget {
   /// Main instance of the API service to use in the widget.
   final ApiService apiService;
 
-  const Login({Key? key, required this.apiService}) : super(key: key);
+  const Login({super.key, required this.apiService});
 
   @override
   State<Login> createState() => _LoginState();
@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
   void onValidAuth() async {
     final account = await widget.apiService.logIn();
 
-    if (context.mounted) {
+    if (mounted) {
       showSnackBar(
         context,
         "Successfully logged in. Welcome, ${account.username}!",

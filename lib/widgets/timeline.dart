@@ -21,11 +21,11 @@ class Timeline extends StatefulWidget {
   final Tab tabIcon;
 
   const Timeline({
-    Key? key,
+    super.key,
     required this.apiService,
     required this.timelineType,
     required this.tabIcon,
-  }) : super(key: key);
+  });
 
   @override
   TimelineState createState() => TimelineState();
@@ -69,10 +69,12 @@ class TimelineState extends State<Timeline> {
     } catch (error) {
       _pagingController.error = error;
 
-      showSnackBar(
-        context,
-        "An error occurred when trying to load new statuses...",
-      );
+      if (mounted) {
+        showSnackBar(
+          context,
+          "An error occurred when trying to load new statuses...",
+        );
+      }
     }
   }
 

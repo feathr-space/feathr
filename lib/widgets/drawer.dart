@@ -8,7 +8,7 @@ import 'package:feathr/data/account.dart';
 class FeathrDrawerHeader extends StatelessWidget {
   final Account account;
 
-  const FeathrDrawerHeader({required this.account, Key? key}) : super(key: key);
+  const FeathrDrawerHeader({required this.account, super.key});
 
   @override
   Widget build(BuildContext context) {

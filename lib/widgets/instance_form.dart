@@ -13,8 +13,8 @@ class InstanceForm extends StatefulWidget {
 
   const InstanceForm({
     required this.onSuccessfulSubmit,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   InstanceFormState createState() {

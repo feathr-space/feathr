@@ -17,7 +17,7 @@ class TimelineTabs extends StatefulWidget {
   /// Main instance of the API service to use in the widget.
   final ApiService apiService;
 
-  const TimelineTabs({Key? key, required this.apiService}) : super(key: key);
+  const TimelineTabs({super.key, required this.apiService});
 
   @override
   State<TimelineTabs> createState() => _TimelineTabsState();

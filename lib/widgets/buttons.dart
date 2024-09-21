@@ -7,8 +7,7 @@ class FeathrActionButton extends StatelessWidget {
   final String buttonText;
 
   const FeathrActionButton(
-      {required this.onPressed, required this.buttonText, Key? key})
-      : super(key: key);
+      {required this.onPressed, required this.buttonText, super.key});
 
   @override
   Widget build(BuildContext context) {
