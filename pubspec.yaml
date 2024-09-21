@@ -36,18 +36,18 @@ dependencies:
 
   # Icon collections and helpers
   flutter_feather_icons: ^2.0.0+1
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.0
 
   # Helper to display build information and version within the app
-  package_info_plus: ^4.0.2
+  package_info_plus: ^5.0.1
 
   # Network request helpers
-  http: ^0.13.6
-  oauth2_client: ^3.2.1
-  flutter_secure_storage: ^8.0.0
+  http: ^1.1.0
+  flutter_secure_storage: ^9.2.2
+  oauth2_client: ^3.3.0
 
   # Used within the timeline view
-  infinite_scroll_pagination: ^3.2.0
+  infinite_scroll_pagination: ^4.0.0
 
   # Used to render the content of statuses (toots)
   flutter_html: ^3.0.0-beta.2
@@ -67,7 +67,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.2
+  flutter_lints: ^4.0.0
 
 flutter_launcher_icons:
   image_path: "assets/images/feathr-icon.png"
