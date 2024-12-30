@@ -142,11 +142,14 @@ class _StatusCardState extends State<StatusCard> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Html(
-              data: status.content,
+              data: status.getContent(),
               style: {
                 'p': Style(
-                  color: Colors.white.withValues(alpha: 0.6),
-                )
+                  color: Colors.white.withAlpha(153),
+                ),
+                'a': Style(
+                  textDecoration: TextDecoration.none,
+                ),
               },
               // TODO: handle @mentions and #hashtags differently
               onLinkTap: (url, renderContext, attributes) => {
