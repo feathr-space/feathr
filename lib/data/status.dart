@@ -24,6 +24,9 @@ class Status {
   /// Whether or not the user has bookmarked this status
   final bool bookmarked;
 
+  // If this status is a reblog, the reblogged status content will be available here
+  final Status? reblog;
+
   Status({
     required this.id,
     required this.content,
@@ -31,6 +34,7 @@ class Status {
     required this.favorited,
     required this.reblogged,
     required this.bookmarked,
+    this.reblog,
   });
 
   /// Given a Json-like [Map] with information for a status,
@@ -43,6 +47,15 @@ class Status {
       favorited: data["favourited"]!,
       reblogged: data["reblogged"]!,
       bookmarked: data["bookmarked"]!,
+      reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
     );
+  }
+
+  String getContent() {
+    if (reblog != null) {
+      // TODO: display original user's avatar on reblogs
+      return "Reblogged from ${reblog!.account.acct}: ${reblog!.getContent()}";
+    }
+    return content;
   }
 }

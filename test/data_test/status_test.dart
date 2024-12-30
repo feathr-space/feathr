@@ -37,6 +37,7 @@ void main() {
       expect(status.account.isBot, isTrue);
       expect(status.account.avatarUrl, equals("avatar-url"));
       expect(status.account.headerUrl, equals("header-url"));
+      expect(status.reblog, isNull);
     },
   );
 }
