@@ -136,7 +136,7 @@ class _StatusCardState extends State<StatusCard> {
             ),
             subtitle: Text(
               status.account.acct,
-              style: TextStyle(color: Colors.white.withOpacity(0.6)),
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
             ),
           ),
           Padding(
@@ -145,7 +145,7 @@ class _StatusCardState extends State<StatusCard> {
               data: status.content,
               style: {
                 'p': Style(
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 )
               },
               // TODO: handle @mentions and #hashtags differently
@@ -154,7 +154,7 @@ class _StatusCardState extends State<StatusCard> {
               },
             ),
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
