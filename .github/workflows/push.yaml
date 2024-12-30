@@ -21,9 +21,14 @@ jobs:
       run: dart format -o show --set-exit-if-changed .
     - name: Run tests
       run: flutter test --coverage --reporter expanded
-    - name: Upload coverage to codecov
-      uses: codecov/codecov-action@v2
-      with:
-        files: coverage/lcov.info
-        fail_ci_if_error: true
-        verbose: true
+    - name: Print coverage information
+      run: dart run test_cov_console --coverage coverage/lcov.info
+    - name: Ensure test coverage is at least 65%
+      run: |
+        result=$(dart run test_cov_console --coverage coverage/lcov.info --pass=65)
+        echo $result
+        if [ "$result" = "PASSED" ]; then
+          exit 0
+        else
+          exit 1
+        fi
