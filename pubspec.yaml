@@ -43,7 +43,7 @@ dependencies:
 
   # Network request helpers
   http: ^1.2.2
-  flutter_secure_storage: ^9.2.2
+  flutter_secure_storage: ^9.2.3
   oauth2_client: ^3.3.0
 
   # Used within the timeline view
