@@ -10,6 +10,8 @@ void main() {
     "favourited": true,
     "bookmarked": false,
     "reblogged": true,
+    "favourites_count": 1,
+    "reblogs_count": 0,
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -30,6 +32,8 @@ void main() {
     "favourited": true,
     "bookmarked": false,
     "reblogged": true,
+    "favourites_count": 1,
+    "reblogs_count": 0,
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -47,6 +51,8 @@ void main() {
       "favourited": false,
       "bookmarked": true,
       "reblogged": false,
+      "favourites_count": 1,
+      "reblogs_count": 0,
       "account": {
         "id": "this is another id",
         "username": "username456",
@@ -71,6 +77,8 @@ void main() {
       expect(status.favorited, isTrue);
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);
+      expect(status.favouritesCount, equals(1));
+      expect(status.reblogsCount, equals(0));
       expect(status.account.id, equals("this is an id"));
       expect(status.account.username, equals("username123"));
       expect(status.account.displayName, equals("user display name"));
@@ -92,6 +100,8 @@ void main() {
       expect(status.favorited, isTrue);
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);
+      expect(status.favouritesCount, equals(1));
+      expect(status.reblogsCount, equals(0));
       expect(status.account.id, equals("this is an id"));
       expect(status.account.username, equals("username123"));
       expect(status.account.displayName, equals("user display name"));
@@ -107,6 +117,8 @@ void main() {
       expect(reblog.favorited, isFalse);
       expect(reblog.bookmarked, isTrue);
       expect(reblog.reblogged, isFalse);
+      expect(status.favouritesCount, equals(1));
+      expect(status.reblogsCount, equals(0));
       expect(reblog.account.id, equals("this is another id"));
       expect(reblog.account.username, equals("username456"));
       expect(reblog.account.displayName, equals("user456 display name"));

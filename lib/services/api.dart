@@ -311,6 +311,30 @@ class ApiService {
     );
   }
 
+  /// Given a Mastodon instance's base URL, requests the Mastodon API to
+  /// return custom emojis available on that server.
+  /// The returned data is a map of shortcode to URL for each custom emoji.
+  /// Note that this request is not tied to the current user or its instance,
+  /// as it's a public endpoint. Returns a list of custom emojis, if any.
+  Future<Map<String, String>> getCustomEmojis(
+      String mastodonInstanceUrl) async {
+    final apiUrl = "$mastodonInstanceUrl/api/v1/custom_emojis";
+    http.Response resp = await _apiGet(apiUrl);
+
+    if (resp.statusCode == 200) {
+      List<Map<String, dynamic>> jsonData = jsonDecode(resp.body);
+
+      return {
+        for (var item in jsonData)
+          item['shortcode'] as String: item['url'] as String
+      };
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `getCustomEmojis`",
+    );
+  }
+
   /// Given a [Status]'s ID, requests the Mastodon API to un-boost
   /// the status. Note that this is idempotent: a non-boosted
   /// status will remain non-boosted. Returns the (new) [Status] instance

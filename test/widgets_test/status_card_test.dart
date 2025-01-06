@@ -21,6 +21,8 @@ void main() {
         favorited: true,
         reblogged: false,
         bookmarked: true,
+        favouritesCount: 10,
+        reblogsCount: 5,
       );
 
       await tester.pumpWidget(

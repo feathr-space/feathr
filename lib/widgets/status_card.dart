@@ -164,17 +164,29 @@ class _StatusCardState extends State<StatusCard> {
           OverflowBar(
             alignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                onPressed: onBoostPress,
-                tooltip: "Boost",
-                icon: const Icon(FeatherIcons.repeat),
-                color: status.reblogged ? Colors.green : null,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: onBoostPress,
+                    tooltip: "Boost",
+                    icon: const Icon(FeatherIcons.repeat),
+                    color: status.reblogged ? Colors.green : null,
+                  ),
+                  Text("${status.reblogsCount}"),
+                ],
               ),
-              IconButton(
-                onPressed: onFavoritePress,
-                tooltip: "Favorite",
-                icon: const Icon(FeatherIcons.star),
-                color: status.favorited ? Colors.yellow : null,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: onFavoritePress,
+                    tooltip: "Favorite",
+                    icon: const Icon(FeatherIcons.star),
+                    color: status.favorited ? Colors.orange : null,
+                  ),
+                  Text("${status.favouritesCount}"),
+                ],
               ),
               IconButton(
                 onPressed: onBookmarkPress,

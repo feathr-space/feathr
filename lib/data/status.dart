@@ -33,6 +33,12 @@ class Status {
   // If this status is a reblog, the reblogged status content will be available here
   final Status? reblog;
 
+  // Amount of times ths status has been favorited
+  final int favouritesCount;
+
+  // Amount of times this status has been reblogged
+  final int reblogsCount;
+
   Status({
     required this.id,
     required this.createdAt,
@@ -41,6 +47,8 @@ class Status {
     required this.favorited,
     required this.reblogged,
     required this.bookmarked,
+    required this.favouritesCount,
+    required this.reblogsCount,
     this.reblog,
   });
 
@@ -55,6 +63,8 @@ class Status {
       favorited: data["favourited"]!,
       reblogged: data["reblogged"]!,
       bookmarked: data["bookmarked"]!,
+      favouritesCount: data["favourites_count"]!,
+      reblogsCount: data["reblogs_count"]!,
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
     );
   }
