@@ -94,7 +94,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
         apiService: widget.apiService,
         timelineType: TimelineType.home,
         tabIcon: const Tab(
-          icon: Icon(FeatherIcons.home),
+          icon: Icon(FeatherIcons.home, size: 14),
           text: "Home",
         ),
       ),
@@ -102,7 +102,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
         apiService: widget.apiService,
         timelineType: TimelineType.local,
         tabIcon: const Tab(
-          icon: Icon(FeatherIcons.monitor),
+          icon: Icon(FeatherIcons.monitor, size: 16),
           text: "Local",
         ),
       ),
@@ -110,7 +110,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
         apiService: widget.apiService,
         timelineType: TimelineType.fedi,
         tabIcon: const Tab(
-          icon: Icon(FeatherIcons.globe),
+          icon: Icon(FeatherIcons.globe, size: 16),
           text: "Fedi",
         ),
       ),
@@ -120,6 +120,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 48.0,
           title: const Text(TimelineTabs.title),
           bottom: TabBar(
             tabs: tabs.map((tab) => tab.tabIcon).toList(),
