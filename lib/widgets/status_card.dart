@@ -138,6 +138,10 @@ class _StatusCardState extends State<StatusCard> {
               status.account.acct,
               style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
             ),
+            trailing: Text(
+              status.getRelativeDate(),
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

@@ -55,6 +55,7 @@ dependencies:
 
   # Form validations
   validators: ^3.0.0
+  relative_time: ^5.0.0
 
 dev_dependencies:
   flutter_test:

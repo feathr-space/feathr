@@ -114,7 +114,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -181,7 +181,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -248,7 +248,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -315,7 +315,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -379,7 +379,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"reblog":{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
             200,
           ),
         );
@@ -446,7 +446,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"reblog":{"id":"$testStatusId","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
             200,
           ),
         );

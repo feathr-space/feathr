@@ -15,6 +15,7 @@ void main() {
       ApiService apiService = getTestApiService();
       Status status = Status(
         id: "12345678",
+        createdAt: DateTime(2025, 1, 5, 14, 30, 0),
         content: "<p>This is a toot!</p>",
         account: apiService.currentAccount!,
         favorited: true,

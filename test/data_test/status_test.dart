@@ -6,6 +6,7 @@ void main() {
   const Map<String, dynamic> testStatusNoReblog = {
     "id": "11223344",
     "content": "<p>I am a toot!</p>",
+    "created_at": "2025-01-01T00:00:00Z",
     "favourited": true,
     "bookmarked": false,
     "reblogged": true,
@@ -25,6 +26,7 @@ void main() {
   const Map<String, dynamic> testStatusWithReblog = {
     "id": "11223344",
     "content": "<p>I am a toot!</p>",
+    "created_at": "2025-01-01T00:00:00Z",
     "favourited": true,
     "bookmarked": false,
     "reblogged": true,
@@ -41,6 +43,7 @@ void main() {
     "reblog": {
       "id": "55667788",
       "content": "<p>I am an internal toot!</p>",
+      "created_at": "2025-01-01T00:00:00Z",
       "favourited": false,
       "bookmarked": true,
       "reblogged": false,
@@ -64,6 +67,7 @@ void main() {
 
       expect(status.id, equals("11223344"));
       expect(status.content, equals("<p>I am a toot!</p>"));
+      expect(status.createdAt, equals(DateTime.parse("2025-01-01T00:00:00Z")));
       expect(status.favorited, isTrue);
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);
@@ -84,6 +88,7 @@ void main() {
       final status = Status.fromJson(testStatusWithReblog);
       expect(status.id, equals("11223344"));
       expect(status.content, equals("<p>I am a toot!</p>"));
+      expect(status.createdAt, equals(DateTime.parse("2025-01-01T00:00:00Z")));
       expect(status.favorited, isTrue);
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);

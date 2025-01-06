@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:feathr/data/account.dart';
+import 'package:relative_time/relative_time.dart';
 
 /// The [Status] class represents information for a given status (toot)
 /// made in a Mastodon instance.
@@ -8,6 +11,9 @@ import 'package:feathr/data/account.dart';
 class Status {
   /// ID of the status in the Mastodon instance it belongs to
   final String id;
+
+  /// Datetime when the status was created
+  final DateTime createdAt;
 
   /// Main content of the status, in HTML format
   final String content;
@@ -29,6 +35,7 @@ class Status {
 
   Status({
     required this.id,
+    required this.createdAt,
     required this.content,
     required this.account,
     required this.favorited,
@@ -42,6 +49,7 @@ class Status {
   factory Status.fromJson(Map<String, dynamic> data) {
     return Status(
       id: data["id"]!,
+      createdAt: DateTime.parse(data["created_at"]!),
       content: data["content"]!,
       account: Account.fromJson(data["account"]!),
       favorited: data["favourited"]!,
@@ -57,5 +65,10 @@ class Status {
       return "Reblogged from ${reblog!.account.acct}: ${reblog!.getContent()}";
     }
     return content;
+  }
+
+  String getRelativeDate() {
+    // TODO: set up localization for the app
+    return createdAt.relativeTimeLocale(const Locale('en'));
   }
 }
