@@ -8,6 +8,8 @@ import 'package:feathr/utils/messages.dart';
 import 'package:feathr/widgets/drawer.dart';
 import 'package:feathr/widgets/timeline.dart';
 
+import 'package:feathr/widgets/status_form.dart';
+
 /// The [TimelineTabs] widget represents the tab wrapper for the main
 /// view of the Feathr app.
 class TimelineTabs extends StatefulWidget {
@@ -87,6 +89,31 @@ class _TimelineTabsState extends State<TimelineTabs> {
     );
   }
 
+  /// Displays a dialog box with a form to post a status.
+  void postStatusAction() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Compose a new status",
+            textAlign: TextAlign.center,
+          ),
+          titleTextStyle: TextStyle(
+            fontSize: 18.0,
+          ),
+          content: StatusForm(
+            apiService: widget.apiService,
+            onSuccessfulSubmit: () {
+              // Hide the dialog box
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Timeline> tabs = [
@@ -127,8 +154,18 @@ class _TimelineTabsState extends State<TimelineTabs> {
           ),
         ),
         drawer: getDrawer(context),
-        body: TabBarView(
-          children: tabs,
+        body: Stack(
+          children: [
+            TabBarView(children: tabs),
+            Positioned(
+              bottom: 32.0,
+              right: 32.0,
+              child: FloatingActionButton(
+                onPressed: postStatusAction,
+                child: const Icon(Icons.create_rounded),
+              ),
+            ),
+          ],
         ),
       ),
     );

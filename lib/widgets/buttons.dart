@@ -11,14 +11,17 @@ class FeathrActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
-      child: Text(
-        buttonText,
-        style: const TextStyle(
-          fontFamily: "Urbanist",
-          fontSize: 18,
+    return Container(
+      margin: const EdgeInsets.only(top: 24.0),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+        child: Text(
+          buttonText,
+          style: const TextStyle(
+            fontFamily: "Urbanist",
+            fontSize: 18,
+          ),
         ),
       ),
     );
