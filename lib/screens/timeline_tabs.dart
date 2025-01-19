@@ -107,6 +107,9 @@ class _TimelineTabsState extends State<TimelineTabs> {
             onSuccessfulSubmit: () {
               // Hide the dialog box
               Navigator.of(context).pop();
+
+              // Show a success message
+              showSnackBar(context, "Status posted successfully!");
             },
           ),
         );

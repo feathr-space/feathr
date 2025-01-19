@@ -1,4 +1,5 @@
 import 'package:feathr/services/api.dart';
+import 'package:feathr/utils/messages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feathr/widgets/buttons.dart';
@@ -53,9 +54,24 @@ class StatusFormState extends State<StatusForm> {
               : null,
         ),
         FeathrActionButton(
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              // TODO: Implement the API call to submit the status
+              // Hide the button and show a spinner while the status is being
+              // submitted
+
+              // Post the status to the server
+              try {
+                await widget.apiService.postStatus(statusController.text);
+              } catch (e) {
+                // Show an error message if the status couldn't be posted
+                if (context.mounted) {
+                  showSnackBar(context, 'Failed to post status: $e');
+                }
+
+                return;
+              }
+
+              // Post was successful, call the success function!
               widget.onSuccessfulSubmit();
             }
           },

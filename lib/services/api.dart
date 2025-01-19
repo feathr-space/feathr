@@ -257,6 +257,28 @@ class ApiService {
     );
   }
 
+  /// Given a status content, requests the Mastodon API to post a new status
+  /// on the user's timeline. Returns the (new) [Status] instance the API
+  /// responds with.
+  Future<Status> postStatus(String content) async {
+    final apiUrl = "${instanceUrl!}/api/v1/statuses";
+    // TODO: Support sensitivity, visibility, language, scheduling, polls and media
+    http.Response resp = await helper!.post(
+      apiUrl,
+      body: {"status": content},
+      httpClient: httpClient,
+    );
+
+    if (resp.statusCode == 200) {
+      Map<String, dynamic> jsonData = jsonDecode(resp.body);
+      return Status.fromJson(jsonData);
+    }
+
+    throw ApiException(
+      "Unexpected status code ${resp.statusCode} on `postStatus`",
+    );
+  }
+
   /// Given a [Status]'s ID, requests the Mastodon API to bookmark
   /// the status. Note that this is idempotent: an already-bookmarked
   /// status will remain bookmarked. Returns the (new) [Status] instance
