@@ -22,5 +22,8 @@ void main() {
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Local'), findsOneWidget);
     expect(find.text('Fedi'), findsOneWidget);
+
+    // Expect to find the new status button
+    expect(find.byIcon(Icons.create_rounded), findsOneWidget);
   });
 }
