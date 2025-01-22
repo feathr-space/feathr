@@ -5,6 +5,7 @@ import 'package:feathr/themes/light.dart';
 
 import 'package:feathr/services/api.dart';
 import 'package:feathr/screens/about.dart';
+import 'package:feathr/screens/user.dart';
 import 'package:feathr/screens/login.dart';
 import 'package:feathr/screens/timeline_tabs.dart';
 
@@ -23,6 +24,21 @@ class FeathrApp extends StatelessWidget {
       darkTheme: darkThemeData,
       themeMode: ThemeMode.dark,
       initialRoute: '/login',
+      onGenerateRoute: (settings) {
+        if (settings.name == '/user') {
+          final args = settings.arguments as UserScreenArguments;
+          return MaterialPageRoute(
+            builder: (context) {
+              return User(
+                account: args.account,
+                apiService: apiService,
+              );
+            },
+          );
+        }
+
+        return null;
+      },
       routes: {
         '/login': (context) => Login(apiService: apiService),
         '/tabs': (context) => TimelineTabs(apiService: apiService),

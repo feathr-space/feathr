@@ -1,3 +1,4 @@
+import 'package:feathr/screens/user.dart';
 import 'package:feathr/services/api.dart';
 import 'package:flutter/material.dart';
 
@@ -124,10 +125,17 @@ class _StatusCardState extends State<StatusCard> {
       child: Column(
         children: <Widget>[
           ListTile(
-            leading: CircleAvatar(
-              foregroundImage: status.account.avatarUrl != null
-                  ? NetworkImage(status.account.avatarUrl!)
-                  : null,
+            leading: GestureDetector(
+              onTap: () {
+                // Navigate to the User screen passing the account object
+                Navigator.pushNamed(context, '/user',
+                    arguments: UserScreenArguments(status.account));
+              },
+              child: CircleAvatar(
+                foregroundImage: status.account.avatarUrl != null
+                    ? NetworkImage(status.account.avatarUrl!)
+                    : null,
+              ),
             ),
             title: Text(
               status.account.displayName != ""

@@ -20,11 +20,15 @@ class Timeline extends StatefulWidget {
   /// Icon to be displayed for this timeline within a tabbed timeline view
   final Tab tabIcon;
 
+  /// Optional account ID to fetch the timeline for.
+  final String? accountId;
+
   const Timeline({
     super.key,
     required this.apiService,
     required this.timelineType,
     required this.tabIcon,
+    this.accountId,
   });
 
   @override
@@ -57,6 +61,7 @@ class TimelineState extends State<Timeline> {
         widget.timelineType,
         lastStatusId,
         _pageSize,
+        accountId: widget.accountId,
       );
 
       final isLastPage = newStatuses.length < _pageSize;

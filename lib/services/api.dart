@@ -18,7 +18,7 @@ class ApiException implements Exception {
 
 /// Each [TimelineType] represents a specific set of restrictions for querying
 /// a Mastodon timeline.
-enum TimelineType { home, local, fedi }
+enum TimelineType { home, local, fedi, user }
 
 /// [ApiService] holds a collection of useful auxiliary functions to
 /// interact with Mastodon's API.
@@ -151,16 +151,23 @@ class ApiService {
   /// (according to the `timelineType`), using `maxId` as an optional
   /// starting point.
   Future<List<Status>> getStatusList(
-    TimelineType timelineType,
-    String? maxId,
-    int limit,
-  ) async {
+      TimelineType timelineType, String? maxId, int limit,
+      {String? accountId}) async {
     // Depending on the type, we select and restrict the api URL to use,
     // limiting the amount of posts we're requesting according to `limit`
     String apiUrl;
 
     if (timelineType == TimelineType.home) {
       apiUrl = "${instanceUrl!}/api/v1/timelines/home?limit=$limit";
+    } else if (timelineType == TimelineType.user) {
+      if (accountId == null) {
+        throw ApiException(
+          "You must provide an `accountId` for the `user` timeline type",
+        );
+      }
+
+      apiUrl =
+          "${instanceUrl!}/api/v1/accounts/$accountId/statuses?limit=$limit";
     } else {
       // Both the Local and the Fedi timelines use the same base endpoint
       apiUrl = "${instanceUrl!}/api/v1/timelines/public?limit=$limit";

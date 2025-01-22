@@ -13,15 +13,32 @@ class FeathrDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return UserAccountsDrawerHeader(
-      accountName: Text(account.username),
-      accountEmail: Text(account.displayName),
+      accountName: Container(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.65),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(account.displayName, style: TextStyle(color: Colors.white)),
+      ),
+      accountEmail: Container(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.65),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(account.acct, style: TextStyle(color: Colors.white)),
+      ),
       currentAccountPicture: CircleAvatar(
         foregroundImage:
             account.avatarUrl != null ? NetworkImage(account.avatarUrl!) : null,
       ),
       decoration: BoxDecoration(
         image: account.headerUrl != null
-            ? DecorationImage(image: NetworkImage(account.headerUrl!))
+            ? DecorationImage(
+                image: NetworkImage(account.headerUrl!),
+                fit: BoxFit.cover,
+              )
             : null,
         color: account.headerUrl == null ? Colors.teal : null,
       ),
