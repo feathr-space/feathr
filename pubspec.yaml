@@ -42,7 +42,7 @@ dependencies:
   package_info_plus: ^8.1.3
 
   # Network request helpers
-  http: ^1.2.2
+  http: ^1.3.0
   flutter_secure_storage: ^9.2.4
   oauth2_client: ^3.3.0
 
