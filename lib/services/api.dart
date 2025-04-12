@@ -351,7 +351,9 @@ class ApiService {
     http.Response resp = await _apiGet(apiUrl);
 
     if (resp.statusCode == 200) {
-      List<Map<String, dynamic>> jsonData = jsonDecode(resp.body);
+      List<dynamic> jsonDataRaw = jsonDecode(resp.body);
+      List<Map<String, dynamic>> jsonData =
+          jsonDataRaw.map((item) => item as Map<String, dynamic>).toList();
 
       return {
         for (var item in jsonData)

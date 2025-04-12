@@ -677,5 +677,88 @@ void main() {
         expect(outputAccount.headerUrl, equals("header-url"));
       },
     );
+
+    test('getStatusList retrieves a list of statuses from the API', () async {
+      final mockClient = MockClient();
+      final mockHelper = MockOAuth2Helper();
+      final apiService = ApiService();
+      apiService.helper = mockHelper;
+      apiService.httpClient = mockClient;
+      apiService.instanceUrl = "https://example.org";
+
+      when(mockHelper.get(
+        "https://example.org/api/v1/timelines/home?limit=10",
+        httpClient: mockClient,
+      )).thenAnswer(
+        (_) async => http.Response(
+          '[{"id": "1", "created_at": "2025-01-01T00:00:00Z", "content": "<p>Status 1</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}, {"id": "2", "created_at": "2025-01-02T00:00:00Z", "content": "<p>Status 2</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "account": {"id": "account2", "username": "user2", "acct": "user2", "display_name": "User Two", "locked": false, "bot": false, "avatar": "avatar2-url", "header": "header2-url"}}]',
+          200,
+        ),
+      );
+
+      final statuses =
+          await apiService.getStatusList(TimelineType.home, null, 10);
+
+      expect(statuses.length, equals(2));
+      expect(statuses[0].id, equals("1"));
+      expect(statuses[1].id, equals("2"));
+      expect(statuses[0].content, equals("<p>Status 1</p>"));
+      expect(statuses[0].account.username, equals("user1"));
+      expect(statuses[0].account.displayName, equals("User One"));
+      expect(statuses[1].content, equals("<p>Status 2</p>"));
+      expect(statuses[1].account.username, equals("user2"));
+      expect(statuses[1].account.displayName, equals("User Two"));
+    });
+
+    test('postStatus posts a new status and returns the created status',
+        () async {
+      final mockClient = MockClient();
+      final mockHelper = MockOAuth2Helper();
+      final apiService = ApiService();
+      apiService.helper = mockHelper;
+      apiService.httpClient = mockClient;
+      apiService.instanceUrl = "https://example.org";
+
+      when(mockHelper.post(
+        "https://example.org/api/v1/statuses",
+        body: {"status": "Hello, world!"},
+        httpClient: mockClient,
+      )).thenAnswer(
+        (_) async => http.Response(
+          '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
+          200,
+        ),
+      );
+
+      final status = await apiService.postStatus("Hello, world!");
+
+      expect(status.id, equals("1"));
+      expect(status.content, equals("<p>Hello, world!</p>"));
+    });
+
+    test('getCustomEmojis retrieves custom emojis from the API', () async {
+      final mockClient = MockClient();
+      final mockHelper = MockOAuth2Helper();
+      final apiService = ApiService();
+      apiService.helper = mockHelper;
+      apiService.httpClient = mockClient;
+
+      when(mockHelper.get(
+        "https://example.org/api/v1/custom_emojis",
+        httpClient: mockClient,
+      )).thenAnswer(
+        (_) async => http.Response(
+          '[{"shortcode": "smile", "url": "https://example.org/smile.png"}, {"shortcode": "heart", "url": "https://example.org/heart.png"}, {"shortcode": "star", "url": "https://example.org/star.png"}]',
+          200,
+        ),
+      );
+
+      final emojis = await apiService.getCustomEmojis("https://example.org");
+
+      expect(emojis.length, equals(3));
+      expect(emojis["smile"], equals("https://example.org/smile.png"));
+      expect(emojis["heart"], equals("https://example.org/heart.png"));
+      expect(emojis["star"], equals("https://example.org/star.png"));
+    });
   });
 }
