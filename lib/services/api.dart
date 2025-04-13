@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:collection';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -45,6 +46,9 @@ class ApiService {
 
   /// [http.Client] instance to perform queries (is overriden for tests)
   http.Client httpClient = http.Client();
+
+  /// Cache for custom emojis per Mastodon instance
+  final Map<String, Map<String, String>> _customEmojisCache = HashMap();
 
   /// Performs a GET request to the specified URL through the API helper
   Future<http.Response> _apiGet(String url) async {
@@ -364,6 +368,18 @@ class ApiService {
     throw ApiException(
       "Unexpected status code ${resp.statusCode} on `getCustomEmojis`",
     );
+  }
+
+  /// Fetches custom emojis for a Mastodon instance, using cache if available
+  Future<Map<String, String>> getCachedCustomEmojis(
+      String mastodonInstanceUrl) async {
+    if (_customEmojisCache.containsKey(mastodonInstanceUrl)) {
+      return _customEmojisCache[mastodonInstanceUrl]!;
+    }
+
+    final customEmojis = await getCustomEmojis(mastodonInstanceUrl);
+    _customEmojisCache[mastodonInstanceUrl] = customEmojis;
+    return customEmojis;
   }
 
   /// Given a [Status]'s ID, requests the Mastodon API to un-boost

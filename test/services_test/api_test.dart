@@ -760,5 +760,57 @@ void main() {
       expect(emojis["heart"], equals("https://example.org/heart.png"));
       expect(emojis["star"], equals("https://example.org/star.png"));
     });
+
+    test('getCachedCustomEmojis caches results after the first call', () async {
+      final mockClient = MockClient();
+      final mockHelper = MockOAuth2Helper();
+      final apiService = ApiService();
+      apiService.helper = mockHelper;
+      apiService.httpClient = mockClient;
+
+      const instanceUrl = "https://example.org";
+      final apiUrl = "$instanceUrl/api/v1/custom_emojis";
+
+      // Mock the HTTP response
+      when(mockHelper.get(apiUrl, httpClient: mockClient)).thenAnswer(
+        (_) async => http.Response(
+          '[{"shortcode": "smile", "url": "https://example.org/smile.png"}]',
+          200,
+        ),
+      );
+
+      // First call should trigger an HTTP request
+      final emojisFirstCall =
+          await apiService.getCachedCustomEmojis(instanceUrl);
+      expect(emojisFirstCall.length, equals(1));
+      expect(emojisFirstCall["smile"], equals("https://example.org/smile.png"));
+
+      // Second call should use the cache and not trigger another HTTP request
+      final emojisSecondCall =
+          await apiService.getCachedCustomEmojis(instanceUrl);
+      expect(emojisSecondCall.length, equals(1));
+      expect(
+          emojisSecondCall["smile"], equals("https://example.org/smile.png"));
+
+      // Verify that the HTTP request was only made once
+      verify(mockHelper.get(apiUrl, httpClient: mockClient)).called(1);
+
+      // Test a different instance URL
+      const differentInstanceUrl = "https://example.net";
+      final differentApiUrl = "$differentInstanceUrl/api/v1/custom_emojis";
+      when(mockHelper.get(differentApiUrl, httpClient: mockClient)).thenAnswer(
+        (_) async => http.Response(
+          '[{"shortcode": "wink", "url": "https://example.net/wink.png"}]',
+          200,
+        ),
+      );
+      final differentEmojis =
+          await apiService.getCachedCustomEmojis(differentInstanceUrl);
+      expect(differentEmojis.length, equals(1));
+      expect(differentEmojis["wink"], equals("https://example.net/wink.png"));
+
+      // Verify that the HTTP request was made for the different instance URL
+      verify(mockHelper.get(differentApiUrl, httpClient: mockClient)).called(1);
+    });
   });
 }
