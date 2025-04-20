@@ -50,6 +50,9 @@ class Status {
   // Amount of replies to this status
   final int repliesCount;
 
+  // Status visibility
+  final StatusVisibility visibility;
+
   Status({
     required this.id,
     required this.createdAt,
@@ -61,6 +64,7 @@ class Status {
     required this.favouritesCount,
     required this.reblogsCount,
     required this.repliesCount,
+    required this.visibility,
     this.reblog,
   });
 
@@ -78,6 +82,7 @@ class Status {
       favouritesCount: data["favourites_count"]!,
       reblogsCount: data["reblogs_count"]!,
       repliesCount: data["replies_count"]!,
+      visibility: StatusVisibility.values.byName(data["visibility"]!),
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
     );
   }
