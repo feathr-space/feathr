@@ -44,7 +44,7 @@ void main() {
       // Initial render
       expect(find.byType(StatusCard), findsOneWidget);
       expect(find.text('display name'), findsOneWidget);
-      expect(find.text('username'), findsOneWidget);
+      expect(find.text('🌍username'), findsOneWidget);
       expect(find.text('This is a toot!'), findsOneWidget);
       expect(
         find.widgetWithIcon(IconButton, FeatherIcons.bookmark),
