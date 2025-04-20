@@ -72,6 +72,9 @@ class StatusFormState extends State<StatusForm> {
   /// value set on the input field on this class.
   final statusController = TextEditingController();
 
+  /// Selected visibility for the status.
+  StatusVisibility selectedVisibility = StatusVisibility.public;
+
   @override
   Widget build(BuildContext context) {
     if (widget.replyToStatus != null) {
@@ -106,6 +109,25 @@ class StatusFormState extends State<StatusForm> {
               ? 'This field should not be empty'
               : null,
         ),
+        DropdownButtonFormField<StatusVisibility>(
+          value: selectedVisibility,
+          decoration: const InputDecoration(
+            helperText: 'Visibility',
+          ),
+          items: const [
+            DropdownMenuItem(
+                value: StatusVisibility.public, child: Text('Public')),
+            DropdownMenuItem(
+                value: StatusVisibility.unlisted, child: Text('Unlisted')),
+            DropdownMenuItem(
+                value: StatusVisibility.private, child: Text('Private')),
+          ],
+          onChanged: (value) {
+            setState(() {
+              selectedVisibility = value!;
+            });
+          },
+        ),
         FeathrActionButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
@@ -114,8 +136,11 @@ class StatusFormState extends State<StatusForm> {
 
               // Post the status to the server
               try {
-                await widget.apiService.postStatus(statusController.text,
-                    replyToStatus: widget.replyToStatus);
+                await widget.apiService.postStatus(
+                  statusController.text,
+                  replyToStatus: widget.replyToStatus,
+                  visibility: selectedVisibility,
+                );
               } catch (e) {
                 // Show an error message if the status couldn't be posted
                 if (context.mounted) {
