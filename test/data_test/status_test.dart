@@ -12,6 +12,7 @@ void main() {
     "reblogged": true,
     "favourites_count": 1,
     "reblogs_count": 0,
+    "replies_count": 0,
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -34,6 +35,7 @@ void main() {
     "reblogged": true,
     "favourites_count": 1,
     "reblogs_count": 0,
+    "replies_count": 0,
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -52,6 +54,7 @@ void main() {
       "bookmarked": true,
       "reblogged": false,
       "favourites_count": 1,
+      "replies_count": 0,
       "reblogs_count": 0,
       "account": {
         "id": "this is another id",
@@ -78,6 +81,7 @@ void main() {
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);
       expect(status.favouritesCount, equals(1));
+      expect(status.repliesCount, equals(0));
       expect(status.reblogsCount, equals(0));
       expect(status.account.id, equals("this is an id"));
       expect(status.account.username, equals("username123"));
@@ -101,6 +105,7 @@ void main() {
       expect(status.bookmarked, isFalse);
       expect(status.reblogged, isTrue);
       expect(status.favouritesCount, equals(1));
+      expect(status.repliesCount, equals(0));
       expect(status.reblogsCount, equals(0));
       expect(status.account.id, equals("this is an id"));
       expect(status.account.username, equals("username123"));

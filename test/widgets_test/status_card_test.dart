@@ -23,6 +23,7 @@ void main() {
         bookmarked: true,
         favouritesCount: 10,
         reblogsCount: 5,
+        repliesCount: 2,
       );
 
       await tester.pumpWidget(

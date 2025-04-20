@@ -39,6 +39,9 @@ class Status {
   // Amount of times this status has been reblogged
   final int reblogsCount;
 
+  // Amount of replies to this status
+  final int repliesCount;
+
   Status({
     required this.id,
     required this.createdAt,
@@ -49,6 +52,7 @@ class Status {
     required this.bookmarked,
     required this.favouritesCount,
     required this.reblogsCount,
+    required this.repliesCount,
     this.reblog,
   });
 
@@ -65,6 +69,7 @@ class Status {
       bookmarked: data["bookmarked"]!,
       favouritesCount: data["favourites_count"]!,
       reblogsCount: data["reblogs_count"]!,
+      repliesCount: data["replies_count"]!,
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
     );
   }
