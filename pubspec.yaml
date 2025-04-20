@@ -47,7 +47,8 @@ dependencies:
   oauth2_client: ^4.1.0
 
   # Used within the timeline view
-  infinite_scroll_pagination: ^4.1.0
+  # NOTE: consider upgrading to v5 at some point in the future
+  infinite_scroll_pagination: 4.1.0
 
   # Used to render the content of statuses (toots)
   flutter_html: ^3.0.0
