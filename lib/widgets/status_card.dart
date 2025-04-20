@@ -1,5 +1,6 @@
 import 'package:feathr/screens/user.dart';
 import 'package:feathr/services/api.dart';
+import 'package:feathr/widgets/status_form.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -116,6 +117,15 @@ class _StatusCardState extends State<StatusCard> {
     });
   }
 
+  // Displays a popup window with the reply screen for the selected toot.
+  void onReplyPress() {
+    StatusForm.displayStatusFormWindow(
+      context,
+      widget.apiService,
+      replyToStatus: status,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: display more information on each status
@@ -172,6 +182,15 @@ class _StatusCardState extends State<StatusCard> {
           OverflowBar(
             alignment: MainAxisAlignment.spaceAround,
             children: [
+              Row(mainAxisSize: MainAxisSize.min, children: [
+                IconButton(
+                  onPressed: onReplyPress,
+                  tooltip: "Reply",
+                  icon: const Icon(FeatherIcons.messageCircle),
+                  color: null,
+                ),
+                Text("${status.repliesCount}"),
+              ]),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

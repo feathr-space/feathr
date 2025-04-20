@@ -91,29 +91,10 @@ class _TimelineTabsState extends State<TimelineTabs> {
 
   /// Displays a dialog box with a form to post a status.
   void postStatusAction() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            "Compose a new status",
-            textAlign: TextAlign.center,
-          ),
-          titleTextStyle: TextStyle(
-            fontSize: 18.0,
-          ),
-          content: StatusForm(
-            apiService: widget.apiService,
-            onSuccessfulSubmit: () {
-              // Hide the dialog box
-              Navigator.of(context).pop();
-
-              // Show a success message
-              showSnackBar(context, "Status posted successfully!");
-            },
-          ),
-        );
-      },
+    StatusForm.displayStatusFormWindow(
+      context,
+      widget.apiService,
+      replyToStatus: null,
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:feathr/services/api.dart';
 import 'package:feathr/utils/messages.dart';
 import 'package:flutter/material.dart';
 
+import 'package:feathr/data/status.dart';
 import 'package:feathr/widgets/buttons.dart';
 
 /// [StatusForm] is a form widget that allows the user to compose
@@ -14,15 +15,50 @@ class StatusForm extends StatefulWidget {
   /// Main instance of the API service to use in the widget.
   final ApiService apiService;
 
+  /// Status that is being replied to, if any.
+  final Status? replyToStatus;
+
   const StatusForm({
     required this.apiService,
     required this.onSuccessfulSubmit,
+    this.replyToStatus,
     super.key,
   });
 
   @override
   StatusFormState createState() {
     return StatusFormState();
+  }
+
+  /// Displays a dialog box with a form to post a status.
+  static void displayStatusFormWindow(
+      BuildContext context, ApiService apiService,
+      {Status? replyToStatus}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Compose a new status",
+            textAlign: TextAlign.center,
+          ),
+          titleTextStyle: const TextStyle(
+            fontSize: 18.0,
+          ),
+          content: StatusForm(
+            apiService: apiService,
+            replyToStatus: replyToStatus,
+            onSuccessfulSubmit: () {
+              // Hide the dialog box
+              Navigator.of(context).pop();
+
+              // Show a success message
+              showSnackBar(context, "Status posted successfully!");
+            },
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -38,6 +74,23 @@ class StatusFormState extends State<StatusForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.replyToStatus != null) {
+      // If the status is a reply to someone other than the user,
+      // set the text field to include the reply-to status.
+      if (widget.replyToStatus!.account.id !=
+          widget.apiService.currentAccount!.id) {
+        // Set the text field to include the reply-to status.
+        statusController.text = '@${widget.replyToStatus!.account.acct} ';
+      }
+    }
+
+    String helperText = "What's on your mind?";
+    if (widget.replyToStatus != null) {
+      // If the status is a reply, set the helper text to include the
+      // reply-to status.
+      helperText = "Replying to @${widget.replyToStatus!.account.acct}";
+    }
+
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -45,8 +98,8 @@ class StatusFormState extends State<StatusForm> {
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         TextFormField(
           keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
-            helperText: "What's on your mind?",
+          decoration: InputDecoration(
+            helperText: helperText,
           ),
           controller: statusController,
           validator: (value) => value == null || value.isEmpty
@@ -61,7 +114,8 @@ class StatusFormState extends State<StatusForm> {
 
               // Post the status to the server
               try {
-                await widget.apiService.postStatus(statusController.text);
+                await widget.apiService.postStatus(statusController.text,
+                    replyToStatus: widget.replyToStatus);
               } catch (e) {
                 // Show an error message if the status couldn't be posted
                 if (context.mounted) {

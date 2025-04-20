@@ -271,14 +271,16 @@ class ApiService {
   /// Given a status content, requests the Mastodon API to post a new status
   /// on the user's timeline. Returns the (new) [Status] instance the API
   /// responds with.
-  Future<Status> postStatus(String content) async {
+  Future<Status> postStatus(String content, {Status? replyToStatus}) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses";
     // TODO: Support sensitivity, visibility, language, scheduling, polls and media
-    http.Response resp = await helper!.post(
-      apiUrl,
-      body: {"status": content},
-      httpClient: httpClient,
-    );
+    Map<String, String> body = {"status": content};
+    if (replyToStatus != null) {
+      body["in_reply_to_id"] = replyToStatus.id;
+    }
+
+    http.Response resp =
+        await helper!.post(apiUrl, body: body, httpClient: httpClient);
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
