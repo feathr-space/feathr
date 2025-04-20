@@ -126,6 +126,25 @@ class _StatusCardState extends State<StatusCard> {
     );
   }
 
+  String getStatusSubtitle() {
+    String accountHandle = status.account.acct;
+
+    String visibilityIcon = "";
+    switch (status.visibility) {
+      case StatusVisibility.public:
+        visibilityIcon = "🌍";
+        break;
+      case StatusVisibility.unlisted:
+        visibilityIcon = "🔒";
+        break;
+      case StatusVisibility.private:
+        visibilityIcon = "🔐";
+        break;
+    }
+
+    return "$visibilityIcon$accountHandle";
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: display more information on each status
@@ -153,8 +172,9 @@ class _StatusCardState extends State<StatusCard> {
                   : status.account.username,
             ),
             subtitle: Text(
-              status.account.acct,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+              getStatusSubtitle(),
+              style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.6), fontSize: 12.0),
             ),
             trailing: Text(
               status.getRelativeDate(),
