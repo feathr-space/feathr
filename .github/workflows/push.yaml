@@ -10,9 +10,10 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '21'
-    - uses: subosito/flutter-action@v1
+    - uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.27.1'
+        flutter-version: '3.29.3'
+        channel: 'stable'
     - name: Download dependencies
       run: flutter pub get
     - name: Analyze code
