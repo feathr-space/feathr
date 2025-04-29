@@ -72,6 +72,10 @@ class StatusFormState extends State<StatusForm> {
   /// value set on the input field on this class.
   final statusController = TextEditingController();
 
+  /// Controller for the `spoilerText` text field, to preserve and access the
+  /// value set on the input field on this class.
+  final spoilerTextController = TextEditingController();
+
   /// Selected visibility for the status.
   StatusVisibility selectedVisibility = StatusVisibility.public;
 
@@ -128,6 +132,13 @@ class StatusFormState extends State<StatusForm> {
             });
           },
         ),
+        TextFormField(
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            helperText: "Content warning (optional)",
+          ),
+          controller: spoilerTextController,
+        ),
         FeathrActionButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
@@ -140,6 +151,7 @@ class StatusFormState extends State<StatusForm> {
                   statusController.text,
                   replyToStatus: widget.replyToStatus,
                   visibility: selectedVisibility,
+                  spoilerText: spoilerTextController.text,
                 );
               } catch (e) {
                 // Show an error message if the status couldn't be posted

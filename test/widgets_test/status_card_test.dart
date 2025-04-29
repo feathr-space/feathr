@@ -24,7 +24,8 @@ void main() {
           favouritesCount: 10,
           reblogsCount: 5,
           repliesCount: 2,
-          visibility: StatusVisibility.public);
+          visibility: StatusVisibility.public,
+          spoilerText: "");
 
       await tester.pumpWidget(
         MaterialApp(

@@ -115,7 +115,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -186,7 +186,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"private","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"private","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -254,7 +254,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"unlisted","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"unlisted","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -322,7 +322,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+            '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
             200,
           ),
         );
@@ -386,7 +386,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
             200,
           ),
         );
@@ -453,7 +453,7 @@ void main() {
                 httpClient: mockClient))
             .thenAnswer(
           (_) async => http.Response(
-            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+            '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
             200,
           ),
         );
@@ -698,7 +698,7 @@ void main() {
         httpClient: mockClient,
       )).thenAnswer(
         (_) async => http.Response(
-          '[{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Status 1</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}, {"id": "2", "created_at": "2025-01-02T00:00:00Z", "visibility": "public", "content": "<p>Status 2</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "account": {"id": "account2", "username": "user2", "acct": "user2", "display_name": "User Two", "locked": false, "bot": false, "avatar": "avatar2-url", "header": "header2-url"}}]',
+          '[{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Status 1</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}, {"id": "2", "created_at": "2025-01-02T00:00:00Z", "visibility": "public", "content": "<p>Status 2</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account2", "username": "user2", "acct": "user2", "display_name": "User Two", "locked": false, "bot": false, "avatar": "avatar2-url", "header": "header2-url"}}]',
           200,
         ),
       );
@@ -728,11 +728,15 @@ void main() {
 
       when(mockHelper.post(
         "https://example.org/api/v1/statuses",
-        body: {"status": "Hello, world!", "visibility": "public"},
+        body: {
+          "status": "Hello, world!",
+          "visibility": "public",
+          "spoiler_text": ""
+        },
         httpClient: mockClient,
       )).thenAnswer(
         (_) async => http.Response(
-          '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
+          '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
           200,
         ),
       );

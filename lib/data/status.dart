@@ -53,6 +53,9 @@ class Status {
   // Status visibility
   final StatusVisibility visibility;
 
+  // Spoiler text (content warning)
+  final String spoilerText;
+
   Status({
     required this.id,
     required this.createdAt,
@@ -65,6 +68,7 @@ class Status {
     required this.reblogsCount,
     required this.repliesCount,
     required this.visibility,
+    required this.spoilerText,
     this.reblog,
   });
 
@@ -83,6 +87,7 @@ class Status {
       reblogsCount: data["reblogs_count"]!,
       repliesCount: data["replies_count"]!,
       visibility: StatusVisibility.values.byName(data["visibility"]!),
+      spoilerText: data["spoiler_text"]!,
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
     );
   }

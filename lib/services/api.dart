@@ -272,12 +272,15 @@ class ApiService {
   /// on the user's timeline. Returns the (new) [Status] instance the API
   /// responds with.
   Future<Status> postStatus(String content,
-      {Status? replyToStatus, StatusVisibility? visibility}) async {
+      {Status? replyToStatus,
+      StatusVisibility visibility = StatusVisibility.public,
+      String spoilerText = ""}) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses";
     // TODO: Support sensitivity, language, scheduling, polls and media
     Map<String, String> body = {
       "status": content,
-      "visibility": (visibility ?? StatusVisibility.public).name,
+      "visibility": visibility.name,
+      "spoiler_text": spoilerText,
     };
     if (replyToStatus != null) {
       body["in_reply_to_id"] = replyToStatus.id;

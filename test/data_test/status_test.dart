@@ -14,6 +14,7 @@ void main() {
     "favourites_count": 1,
     "reblogs_count": 0,
     "replies_count": 0,
+    "spoiler_text": "",
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -38,6 +39,7 @@ void main() {
     "favourites_count": 1,
     "reblogs_count": 0,
     "replies_count": 0,
+    "spoiler_text": "",
     "account": {
       "id": "this is an id",
       "username": "username123",
@@ -59,6 +61,7 @@ void main() {
       "favourites_count": 1,
       "replies_count": 0,
       "reblogs_count": 0,
+      "spoiler_text": "",
       "account": {
         "id": "this is another id",
         "username": "username456",

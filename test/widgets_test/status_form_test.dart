@@ -28,6 +28,7 @@ void main() {
       expect(find.text('What\'s on your mind?'), findsOneWidget);
       expect(find.text('Post'), findsOneWidget);
       expect(find.text('This field should not be empty'), findsNothing);
+      expect(find.text('Content warning (optional)'), findsOneWidget);
 
       // Attempting to post without a value
       await tester.tap(find.text('Post'));
