@@ -155,8 +155,11 @@ class ApiService {
   /// (according to the `timelineType`), using `maxId` as an optional
   /// starting point.
   Future<List<Status>> getStatusList(
-      TimelineType timelineType, String? maxId, int limit,
-      {String? accountId}) async {
+    TimelineType timelineType,
+    String? maxId,
+    int limit, {
+    String? accountId,
+  }) async {
     // Depending on the type, we select and restrict the api URL to use,
     // limiting the amount of posts we're requesting according to `limit`
     String apiUrl;
@@ -271,10 +274,12 @@ class ApiService {
   /// Given a status content, requests the Mastodon API to post a new status
   /// on the user's timeline. Returns the (new) [Status] instance the API
   /// responds with.
-  Future<Status> postStatus(String content,
-      {Status? replyToStatus,
-      StatusVisibility visibility = StatusVisibility.public,
-      String spoilerText = ""}) async {
+  Future<Status> postStatus(
+    String content, {
+    Status? replyToStatus,
+    StatusVisibility visibility = StatusVisibility.public,
+    String spoilerText = "",
+  }) async {
     final apiUrl = "${instanceUrl!}/api/v1/statuses";
     // TODO: Support sensitivity, language, scheduling, polls and media
     Map<String, String> body = {
@@ -286,8 +291,11 @@ class ApiService {
       body["in_reply_to_id"] = replyToStatus.id;
     }
 
-    http.Response resp =
-        await helper!.post(apiUrl, body: body, httpClient: httpClient);
+    http.Response resp = await helper!.post(
+      apiUrl,
+      body: body,
+      httpClient: httpClient,
+    );
 
     if (resp.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(resp.body);
@@ -359,7 +367,8 @@ class ApiService {
   /// Note that this request is not tied to the current user or its instance,
   /// as it's a public endpoint. Returns a list of custom emojis, if any.
   Future<Map<String, String>> getCustomEmojis(
-      String mastodonInstanceUrl) async {
+    String mastodonInstanceUrl,
+  ) async {
     final apiUrl = "$mastodonInstanceUrl/api/v1/custom_emojis";
     http.Response resp = await _apiGet(apiUrl);
 
@@ -370,7 +379,7 @@ class ApiService {
 
       return {
         for (var item in jsonData)
-          item['shortcode'] as String: item['url'] as String
+          item['shortcode'] as String: item['url'] as String,
       };
     }
 
@@ -381,7 +390,8 @@ class ApiService {
 
   /// Fetches custom emojis for a Mastodon instance, using cache if available
   Future<Map<String, String>> getCachedCustomEmojis(
-      String mastodonInstanceUrl) async {
+    String mastodonInstanceUrl,
+  ) async {
     if (_customEmojisCache.containsKey(mastodonInstanceUrl)) {
       return _customEmojisCache[mastodonInstanceUrl]!;
     }

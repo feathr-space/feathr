@@ -6,14 +6,13 @@ import 'package:feathr/screens/timeline_tabs.dart';
 import '../utils.dart';
 
 void main() {
-  testWidgets('TimelineTabs wrapper has three tabs',
-      (WidgetTester tester) async {
+  testWidgets('TimelineTabs wrapper has three tabs', (
+    WidgetTester tester,
+  ) async {
     final apiService = getTestApiService();
-    await tester.pumpWidget(MaterialApp(
-      home: TimelineTabs(
-        apiService: apiService,
-      ),
-    ));
+    await tester.pumpWidget(
+      MaterialApp(home: TimelineTabs(apiService: apiService)),
+    );
 
     // Expect to find our Tabbed view
     expect(find.byType(TimelineTabs), findsOneWidget);

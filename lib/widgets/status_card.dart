@@ -19,11 +19,7 @@ class StatusCard extends StatefulWidget {
   /// The [Status] instance that will be displayed with this widget (initially).
   final Status initialStatus;
 
-  const StatusCard(
-    this.initialStatus, {
-    super.key,
-    required this.apiService,
-  });
+  const StatusCard(this.initialStatus, {super.key, required this.apiService});
 
   @override
   State<StatusCard> createState() => _StatusCardState();
@@ -157,13 +153,17 @@ class _StatusCardState extends State<StatusCard> {
             leading: GestureDetector(
               onTap: () {
                 // Navigate to the User screen passing the account object
-                Navigator.pushNamed(context, '/user',
-                    arguments: UserScreenArguments(status.account));
+                Navigator.pushNamed(
+                  context,
+                  '/user',
+                  arguments: UserScreenArguments(status.account),
+                );
               },
               child: CircleAvatar(
-                foregroundImage: status.account.avatarUrl != null
-                    ? NetworkImage(status.account.avatarUrl!)
-                    : null,
+                foregroundImage:
+                    status.account.avatarUrl != null
+                        ? NetworkImage(status.account.avatarUrl!)
+                        : null,
               ),
             ),
             title: Text(
@@ -174,7 +174,9 @@ class _StatusCardState extends State<StatusCard> {
             subtitle: Text(
               getStatusSubtitle(),
               style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.6), fontSize: 12.0),
+                color: Colors.white.withValues(alpha: 0.6),
+                fontSize: 12.0,
+              ),
             ),
             trailing: Text(
               status.getRelativeDate(),
@@ -186,31 +188,31 @@ class _StatusCardState extends State<StatusCard> {
             child: Html(
               data: status.getContent(),
               style: {
-                'p': Style(
-                  color: Colors.white.withAlpha(153),
-                ),
-                'a': Style(
-                  textDecoration: TextDecoration.none,
-                ),
+                'p': Style(color: Colors.white.withAlpha(153)),
+                'a': Style(textDecoration: TextDecoration.none),
               },
               // TODO: handle @mentions and #hashtags differently
-              onLinkTap: (url, renderContext, attributes) => {
-                if (url != null) {launchUrl(Uri.parse(url))}
-              },
+              onLinkTap:
+                  (url, renderContext, attributes) => {
+                    if (url != null) {launchUrl(Uri.parse(url))},
+                  },
             ),
           ),
           OverflowBar(
             alignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(mainAxisSize: MainAxisSize.min, children: [
-                IconButton(
-                  onPressed: onReplyPress,
-                  tooltip: "Reply",
-                  icon: const Icon(FeatherIcons.messageCircle),
-                  color: null,
-                ),
-                Text("${status.repliesCount}"),
-              ]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: onReplyPress,
+                    tooltip: "Reply",
+                    icon: const Icon(FeatherIcons.messageCircle),
+                    color: null,
+                  ),
+                  Text("${status.repliesCount}"),
+                ],
+              ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -242,7 +244,7 @@ class _StatusCardState extends State<StatusCard> {
                 color: status.bookmarked ? Colors.blue : null,
               ),
             ],
-          )
+          ),
         ],
       ),
     );

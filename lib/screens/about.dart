@@ -56,9 +56,7 @@ class AboutState extends State<About> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Center(
-                  child: TitleWidget("feathr"),
-                ),
+                const Center(child: TitleWidget("feathr")),
                 Text(getVersionTag()),
                 const Divider(),
                 const Text(

@@ -13,10 +13,7 @@ class TitleWidget extends StatelessWidget {
     return Text(
       title,
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontFamily: "Urbanist",
-        fontSize: 84,
-      ),
+      style: const TextStyle(fontFamily: "Urbanist", fontSize: 84),
     );
   }
 }

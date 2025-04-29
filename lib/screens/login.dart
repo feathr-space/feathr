@@ -79,10 +79,11 @@ class _LoginState extends State<Login> {
   void selectInstanceAction() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Enter your Mastodon instance"),
-        content: InstanceForm(onSuccessfulSubmit: logInAction),
-      ),
+      builder:
+          (context) => AlertDialog(
+            title: const Text("Enter your Mastodon instance"),
+            content: InstanceForm(onSuccessfulSubmit: logInAction),
+          ),
     );
   }
 
@@ -93,10 +94,7 @@ class _LoginState extends State<Login> {
       showLoginButton = true;
     });
     widget.apiService.resetApiServiceState();
-    showSnackBar(
-      context,
-      message,
-    );
+    showSnackBar(context, message);
   }
 
   /// Attempts to register an app on a Mastodon instance (given by its URL),
@@ -174,9 +172,7 @@ class _LoginState extends State<Login> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Center(
-                  child: TitleWidget("feathr"),
-                ),
+                const Center(child: TitleWidget("feathr")),
                 Text(getVersionTag()),
               ],
             ),

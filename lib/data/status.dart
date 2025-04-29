@@ -5,11 +5,7 @@ import 'package:relative_time/relative_time.dart';
 
 /// The [StatusVisibility] enum represents the visibility of a status
 /// in a Mastodon instance.
-enum StatusVisibility {
-  public,
-  unlisted,
-  private,
-}
+enum StatusVisibility { public, unlisted, private }
 
 /// The [Status] class represents information for a given status (toot)
 /// made in a Mastodon instance.

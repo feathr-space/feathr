@@ -34,12 +34,13 @@ class FeathrDrawerHeader extends StatelessWidget {
             account.avatarUrl != null ? NetworkImage(account.avatarUrl!) : null,
       ),
       decoration: BoxDecoration(
-        image: account.headerUrl != null
-            ? DecorationImage(
-                image: NetworkImage(account.headerUrl!),
-                fit: BoxFit.cover,
-              )
-            : null,
+        image:
+            account.headerUrl != null
+                ? DecorationImage(
+                  image: NetworkImage(account.headerUrl!),
+                  fit: BoxFit.cover,
+                )
+                : null,
         color: account.headerUrl == null ? Colors.teal : null,
       ),
     );

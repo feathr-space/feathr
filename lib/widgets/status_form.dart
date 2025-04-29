@@ -32,8 +32,10 @@ class StatusForm extends StatefulWidget {
 
   /// Displays a dialog box with a form to post a status.
   static void displayStatusFormWindow(
-      BuildContext context, ApiService apiService,
-      {Status? replyToStatus}) {
+    BuildContext context,
+    ApiService apiService, {
+    Status? replyToStatus,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -42,9 +44,7 @@ class StatusForm extends StatefulWidget {
             "Compose a new status",
             textAlign: TextAlign.center,
           ),
-          titleTextStyle: const TextStyle(
-            fontSize: 18.0,
-          ),
+          titleTextStyle: const TextStyle(fontSize: 18.0),
           content: StatusForm(
             apiService: apiService,
             replyToStatus: replyToStatus,
@@ -102,73 +102,80 @@ class StatusFormState extends State<StatusForm> {
     return Form(
       key: _formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        TextFormField(
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            helperText: helperText,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(helperText: helperText),
+            controller: statusController,
+            validator:
+                (value) =>
+                    value == null || value.isEmpty
+                        ? 'This field should not be empty'
+                        : null,
           ),
-          controller: statusController,
-          validator: (value) => value == null || value.isEmpty
-              ? 'This field should not be empty'
-              : null,
-        ),
-        DropdownButtonFormField<StatusVisibility>(
-          value: selectedVisibility,
-          decoration: const InputDecoration(
-            helperText: 'Visibility',
+          DropdownButtonFormField<StatusVisibility>(
+            value: selectedVisibility,
+            decoration: const InputDecoration(helperText: 'Visibility'),
+            items: const [
+              DropdownMenuItem(
+                value: StatusVisibility.public,
+                child: Text('Public'),
+              ),
+              DropdownMenuItem(
+                value: StatusVisibility.unlisted,
+                child: Text('Unlisted'),
+              ),
+              DropdownMenuItem(
+                value: StatusVisibility.private,
+                child: Text('Private'),
+              ),
+            ],
+            onChanged: (value) {
+              setState(() {
+                selectedVisibility = value!;
+              });
+            },
           ),
-          items: const [
-            DropdownMenuItem(
-                value: StatusVisibility.public, child: Text('Public')),
-            DropdownMenuItem(
-                value: StatusVisibility.unlisted, child: Text('Unlisted')),
-            DropdownMenuItem(
-                value: StatusVisibility.private, child: Text('Private')),
-          ],
-          onChanged: (value) {
-            setState(() {
-              selectedVisibility = value!;
-            });
-          },
-        ),
-        TextFormField(
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            helperText: "Content warning (optional)",
+          TextFormField(
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              helperText: "Content warning (optional)",
+            ),
+            controller: spoilerTextController,
           ),
-          controller: spoilerTextController,
-        ),
-        FeathrActionButton(
-          onPressed: () async {
-            if (_formKey.currentState!.validate()) {
-              // Hide the button and show a spinner while the status is being
-              // submitted
+          FeathrActionButton(
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                // Hide the button and show a spinner while the status is being
+                // submitted
 
-              // Post the status to the server
-              try {
-                await widget.apiService.postStatus(
-                  statusController.text,
-                  replyToStatus: widget.replyToStatus,
-                  visibility: selectedVisibility,
-                  spoilerText: spoilerTextController.text,
-                );
-              } catch (e) {
-                // Show an error message if the status couldn't be posted
-                if (context.mounted) {
-                  showSnackBar(context, 'Failed to post status: $e');
+                // Post the status to the server
+                try {
+                  await widget.apiService.postStatus(
+                    statusController.text,
+                    replyToStatus: widget.replyToStatus,
+                    visibility: selectedVisibility,
+                    spoilerText: spoilerTextController.text,
+                  );
+                } catch (e) {
+                  // Show an error message if the status couldn't be posted
+                  if (context.mounted) {
+                    showSnackBar(context, 'Failed to post status: $e');
+                  }
+
+                  return;
                 }
 
-                return;
+                // Post was successful, call the success function!
+                widget.onSuccessfulSubmit();
               }
-
-              // Post was successful, call the success function!
-              widget.onSuccessfulSubmit();
-            }
-          },
-          buttonText: 'Post',
-        ),
-      ]),
+            },
+            buttonText: 'Post',
+          ),
+        ],
+      ),
     );
   }
 }

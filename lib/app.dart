@@ -29,10 +29,7 @@ class FeathrApp extends StatelessWidget {
           final args = settings.arguments as UserScreenArguments;
           return MaterialPageRoute(
             builder: (context) {
-              return User(
-                account: args.account,
-                apiService: apiService,
-              );
+              return User(account: args.account, apiService: apiService);
             },
           );
         }

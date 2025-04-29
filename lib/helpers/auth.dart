@@ -17,12 +17,12 @@ class FeathrOAuth2Client extends OAuth2Client {
   final String instanceUrl;
 
   FeathrOAuth2Client({required this.instanceUrl})
-      : super(
-          authorizeUrl: '$instanceUrl/oauth/authorize',
-          tokenUrl: '$instanceUrl/oauth/token',
-          redirectUri: featherRedirectUri,
-          customUriScheme: featherUriScheme,
-        );
+    : super(
+        authorizeUrl: '$instanceUrl/oauth/authorize',
+        tokenUrl: '$instanceUrl/oauth/token',
+        redirectUri: featherRedirectUri,
+        customUriScheme: featherUriScheme,
+      );
 }
 
 /// Returns an instance of the [OAuth2Helper] helper class that serves as a

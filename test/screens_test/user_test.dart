@@ -7,17 +7,15 @@ import 'package:feathr/screens/user.dart';
 import '../utils.dart';
 
 void main() {
-  testWidgets('User screen displays user information',
-      (WidgetTester tester) async {
+  testWidgets('User screen displays user information', (
+    WidgetTester tester,
+  ) async {
     final apiService = getTestApiService();
     final account = apiService.currentAccount!;
 
-    await tester.pumpWidget(MaterialApp(
-      home: User(
-        account: account,
-        apiService: apiService,
-      ),
-    ));
+    await tester.pumpWidget(
+      MaterialApp(home: User(account: account, apiService: apiService)),
+    );
 
     // Expect to find the user's name
     expect(find.text(account.displayName), findsOneWidget);

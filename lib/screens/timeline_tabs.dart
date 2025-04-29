@@ -133,9 +133,7 @@ class _TimelineTabsState extends State<TimelineTabs> {
         appBar: AppBar(
           toolbarHeight: 48.0,
           title: const Text(TimelineTabs.title),
-          bottom: TabBar(
-            tabs: tabs.map((tab) => tab.tabIcon).toList(),
-          ),
+          bottom: TabBar(tabs: tabs.map((tab) => tab.tabIcon).toList()),
         ),
         drawer: getDrawer(context),
         body: Stack(

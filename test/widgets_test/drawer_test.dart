@@ -16,11 +16,7 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: Drawer(
-          child: FeathrDrawerHeader(account: account),
-        ),
-      ),
+      MaterialApp(home: Drawer(child: FeathrDrawerHeader(account: account))),
     );
     expect(find.text('username'), findsOneWidget);
     expect(find.text('display name'), findsOneWidget);
@@ -29,8 +25,9 @@ void main() {
     expect(find.byType(NetworkImage), findsNothing);
   });
 
-  testWidgets('Drawer header uses default color when headerUrl is null',
-      (WidgetTester tester) async {
+  testWidgets('Drawer header uses default color when headerUrl is null', (
+    WidgetTester tester,
+  ) async {
     final Account account = Account(
       id: '12345678',
       username: 'username',
@@ -42,15 +39,12 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: Drawer(
-          child: FeathrDrawerHeader(account: account),
-        ),
-      ),
+      MaterialApp(home: Drawer(child: FeathrDrawerHeader(account: account))),
     );
 
     final userAccountsDrawerHeader = tester.widget<UserAccountsDrawerHeader>(
-        find.byType(UserAccountsDrawerHeader));
+      find.byType(UserAccountsDrawerHeader),
+    );
     final BoxDecoration? decoration =
         userAccountsDrawerHeader.decoration as BoxDecoration?;
 

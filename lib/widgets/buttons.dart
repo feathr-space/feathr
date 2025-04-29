@@ -6,8 +6,11 @@ class FeathrActionButton extends StatelessWidget {
   final void Function()? onPressed;
   final String buttonText;
 
-  const FeathrActionButton(
-      {required this.onPressed, required this.buttonText, super.key});
+  const FeathrActionButton({
+    required this.onPressed,
+    required this.buttonText,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +21,7 @@ class FeathrActionButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
         child: Text(
           buttonText,
-          style: const TextStyle(
-            fontFamily: "Urbanist",
-            fontSize: 18,
-          ),
+          style: const TextStyle(fontFamily: "Urbanist", fontSize: 18),
         ),
       ),
     );

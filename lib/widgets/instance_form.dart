@@ -11,10 +11,7 @@ class InstanceForm extends StatefulWidget {
   /// to be called when the user submits a valid input.
   final Function(String) onSuccessfulSubmit;
 
-  const InstanceForm({
-    required this.onSuccessfulSubmit,
-    super.key,
-  });
+  const InstanceForm({required this.onSuccessfulSubmit, super.key});
 
   @override
   InstanceFormState createState() {
