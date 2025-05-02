@@ -24,9 +24,9 @@ jobs:
       run: flutter test --coverage --reporter expanded
     - name: Print coverage information
       run: dart run test_cov_console --file=coverage/lcov.info
-    - name: Ensure test coverage is at least 68%
+    - name: Ensure test coverage is at least 70%
       run: |
-        result=$(dart run test_cov_console --file=coverage/lcov.info --pass=68)
+        result=$(dart run test_cov_console --file=coverage/lcov.info --pass=70)
         echo $result
         if [ "$result" = "PASSED" ]; then
           exit 0
