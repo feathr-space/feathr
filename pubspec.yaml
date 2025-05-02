@@ -44,7 +44,7 @@ dependencies:
   # Network request helpers
   http: ^1.3.0
   flutter_secure_storage: ^10.0.0-beta.4
-  oauth2_client: ^4.1.0
+  oauth2_client: ^4.2.0
 
   # Used within the timeline view
   # NOTE: consider upgrading to v5 at some point in the future
