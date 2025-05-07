@@ -24,6 +24,7 @@ void main() {
       repliesCount: 2,
       visibility: StatusVisibility.public,
       spoilerText: "",
+      customEmojis: [],
     );
 
     await tester.pumpWidget(

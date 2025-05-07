@@ -25,6 +25,13 @@ void main() {
       "avatar": "avatar-url",
       "header": "header-url",
     },
+    "emojis": [
+      {
+        "shortcode": "smile",
+        "static_url": "https://example.com/static/smile.png",
+        "url": "https://example.com/smile.png",
+      },
+    ],
     "reblog": null,
   };
 
@@ -96,6 +103,13 @@ void main() {
     expect(status.account.isBot, isTrue);
     expect(status.account.avatarUrl, equals("avatar-url"));
     expect(status.account.headerUrl, equals("header-url"));
+    expect(status.customEmojis.length, equals(1));
+    expect(status.customEmojis[0].shortcode, equals("smile"));
+    expect(
+      status.customEmojis[0].staticUrl,
+      equals("https://example.com/static/smile.png"),
+    );
+    expect(status.customEmojis[0].url, equals("https://example.com/smile.png"));
     expect(status.reblog, isNull);
   });
 
@@ -136,6 +150,7 @@ void main() {
     expect(reblog.account.isBot, isTrue);
     expect(reblog.account.avatarUrl, equals("avatar-url-2"));
     expect(reblog.account.headerUrl, equals("header-url-2"));
+    expect(reblog.customEmojis, equals([]));
   });
 
   testWidgets(
@@ -157,4 +172,28 @@ void main() {
       );
     },
   );
+
+  testWidgets('Status.getContent properly handles custom emoji in the content', (
+    WidgetTester tester,
+  ) async {
+    final statusWithEmoji = Status.fromJson({
+      ...testStatusNoReblog,
+      "content": "<p>I am a toot! :smile:</p>",
+      "emojis": [
+        {
+          "shortcode": "smile",
+          "static_url": "https://example.com/static/smile.png",
+          "url": "https://example.com/smile.png",
+        },
+      ],
+    });
+
+    expect(statusWithEmoji.content, equals("<p>I am a toot! :smile:</p>"));
+    expect(
+      statusWithEmoji.getContent(),
+      equals(
+        "<p>I am a toot! <img src=\"https://example.com/static/smile.png\" alt=\"smile\" /></p>",
+      ),
+    );
+  });
 }

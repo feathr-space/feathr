@@ -131,6 +131,7 @@ void main() {
       reblogged: false,
       bookmarked: false,
       spoilerText: '',
+      customEmojis: [],
     );
 
     await tester.pumpWidget(

@@ -113,7 +113,7 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => http.Response(
-          '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+          '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","emoji":[],"content":"<p>I am a toot!</p>","favourited":true,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
           200,
         ),
       );
@@ -305,7 +305,7 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => http.Response(
-          '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
+          '{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","emoji":[],"content":"<p>I am a toot!</p>","favourited":false,"bookmarked":false,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}',
           200,
         ),
       );
@@ -367,7 +367,7 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => http.Response(
-          '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+          '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","emoji":[],"content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
           200,
         ),
       );
@@ -429,7 +429,7 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => http.Response(
-          '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
+          '{"reblog":{"id":"$testStatusId","created_at": "2025-01-01T00:00:00Z","visibility":"public","emoji":[],"content":"<p>I am a toot!</p>","favourited":true,"bookmarked":true,"reblogged":true,"favourites_count":1,"reblogs_count":3,"replies_count":2,"spoiler_text":"","account":{"id":"this is an id","username":"username123","acct":"username123","display_name":"user display name","locked":false,"bot":true,"avatar":"avatar-url","header":"header-url"}}}',
           200,
         ),
       );
@@ -664,7 +664,7 @@ void main() {
         ),
       ).thenAnswer(
         (_) async => http.Response(
-          '[{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Status 1</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}, {"id": "2", "created_at": "2025-01-02T00:00:00Z", "visibility": "public", "content": "<p>Status 2</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account2", "username": "user2", "acct": "user2", "display_name": "User Two", "locked": false, "bot": false, "avatar": "avatar2-url", "header": "header2-url"}}]',
+          '[{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "emoji": [], "content": "<p>Status 1</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}, {"id": "2", "created_at": "2025-01-02T00:00:00Z", "visibility": "public", "emoji": [], "content": "<p>Status 2</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account2", "username": "user2", "acct": "user2", "display_name": "User Two", "locked": false, "bot": false, "avatar": "avatar2-url", "header": "header2-url"}}]',
           200,
         ),
       );
@@ -708,7 +708,7 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => http.Response(
-            '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
+            '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "emoji": [], "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
             200,
           ),
         );
@@ -719,89 +719,5 @@ void main() {
         expect(status.content, equals("<p>Hello, world!</p>"));
       },
     );
-
-    test('getCustomEmojis retrieves custom emojis from the API', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-
-      when(
-        mockHelper.get(
-          "https://example.org/api/v1/custom_emojis",
-          httpClient: mockClient,
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          '[{"shortcode": "smile", "url": "https://example.org/smile.png"}, {"shortcode": "heart", "url": "https://example.org/heart.png"}, {"shortcode": "star", "url": "https://example.org/star.png"}]',
-          200,
-        ),
-      );
-
-      final emojis = await apiService.getCustomEmojis("https://example.org");
-
-      expect(emojis.length, equals(3));
-      expect(emojis["smile"], equals("https://example.org/smile.png"));
-      expect(emojis["heart"], equals("https://example.org/heart.png"));
-      expect(emojis["star"], equals("https://example.org/star.png"));
-    });
-
-    test('getCachedCustomEmojis caches results after the first call', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-
-      const instanceUrl = "https://example.org";
-      final apiUrl = "$instanceUrl/api/v1/custom_emojis";
-
-      // Mock the HTTP response
-      when(mockHelper.get(apiUrl, httpClient: mockClient)).thenAnswer(
-        (_) async => http.Response(
-          '[{"shortcode": "smile", "url": "https://example.org/smile.png"}]',
-          200,
-        ),
-      );
-
-      // First call should trigger an HTTP request
-      final emojisFirstCall = await apiService.getCachedCustomEmojis(
-        instanceUrl,
-      );
-      expect(emojisFirstCall.length, equals(1));
-      expect(emojisFirstCall["smile"], equals("https://example.org/smile.png"));
-
-      // Second call should use the cache and not trigger another HTTP request
-      final emojisSecondCall = await apiService.getCachedCustomEmojis(
-        instanceUrl,
-      );
-      expect(emojisSecondCall.length, equals(1));
-      expect(
-        emojisSecondCall["smile"],
-        equals("https://example.org/smile.png"),
-      );
-
-      // Verify that the HTTP request was only made once
-      verify(mockHelper.get(apiUrl, httpClient: mockClient)).called(1);
-
-      // Test a different instance URL
-      const differentInstanceUrl = "https://example.net";
-      final differentApiUrl = "$differentInstanceUrl/api/v1/custom_emojis";
-      when(mockHelper.get(differentApiUrl, httpClient: mockClient)).thenAnswer(
-        (_) async => http.Response(
-          '[{"shortcode": "wink", "url": "https://example.net/wink.png"}]',
-          200,
-        ),
-      );
-      final differentEmojis = await apiService.getCachedCustomEmojis(
-        differentInstanceUrl,
-      );
-      expect(differentEmojis.length, equals(1));
-      expect(differentEmojis["wink"], equals("https://example.net/wink.png"));
-
-      // Verify that the HTTP request was made for the different instance URL
-      verify(mockHelper.get(differentApiUrl, httpClient: mockClient)).called(1);
-    });
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:feathr/data/account.dart';
+import 'package:feathr/data/custom_emoji.dart';
 import 'package:relative_time/relative_time.dart';
 
 /// The [StatusVisibility] enum represents the visibility of a status
@@ -52,6 +53,9 @@ class Status {
   // Spoiler text (content warning)
   final String spoilerText;
 
+  // Custom emojis
+  final List<CustomEmoji> customEmojis;
+
   Status({
     required this.id,
     required this.createdAt,
@@ -65,6 +69,7 @@ class Status {
     required this.repliesCount,
     required this.visibility,
     required this.spoilerText,
+    required this.customEmojis,
     this.reblog,
   });
 
@@ -85,15 +90,36 @@ class Status {
       visibility: StatusVisibility.values.byName(data["visibility"]!),
       spoilerText: data["spoiler_text"]!,
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
+      customEmojis:
+          ((data["emojis"] ?? []) as List)
+              .map(
+                (emoji) => CustomEmoji.fromJson(emoji as Map<String, dynamic>),
+              )
+              .toList(),
     );
   }
 
+  /// Returns the processed and augmented content of the [Status] instance,
+  /// including a note about the reblogged status if applicable,
+  /// and replacing custom emojis with their respective HTML tags.
   String getContent() {
+    // If this status is a reblog, show the original user's account name
     if (reblog != null) {
       // TODO: display original user's avatar on reblogs
       return "Reblogged from ${reblog!.account.acct}: ${reblog!.getContent()}";
     }
-    return content;
+
+    String processedContent = content;
+
+    // Replacing custom emojis with their respective HTML tags
+    for (var emoji in customEmojis) {
+      processedContent = processedContent.replaceAll(
+        ":${emoji.shortcode}:",
+        '<img src="${emoji.staticUrl}" alt="${emoji.shortcode}" />',
+      );
+    }
+
+    return processedContent;
   }
 
   String getRelativeDate() {
