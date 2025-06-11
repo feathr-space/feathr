@@ -16,7 +16,9 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(home: Drawer(child: FeathrDrawerHeader(account: account))),
+      MaterialApp(
+        home: Drawer(child: FeathrDrawerHeader(account: account)),
+      ),
     );
     expect(find.text('username'), findsOneWidget);
     expect(find.text('display name'), findsOneWidget);
@@ -39,7 +41,9 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(home: Drawer(child: FeathrDrawerHeader(account: account))),
+      MaterialApp(
+        home: Drawer(child: FeathrDrawerHeader(account: account)),
+      ),
     );
 
     final userAccountsDrawerHeader = tester.widget<UserAccountsDrawerHeader>(

@@ -90,12 +90,9 @@ class Status {
       visibility: StatusVisibility.values.byName(data["visibility"]!),
       spoilerText: data["spoiler_text"]!,
       reblog: data["reblog"] == null ? null : Status.fromJson(data["reblog"]),
-      customEmojis:
-          ((data["emojis"] ?? []) as List)
-              .map(
-                (emoji) => CustomEmoji.fromJson(emoji as Map<String, dynamic>),
-              )
-              .toList(),
+      customEmojis: ((data["emojis"] ?? []) as List)
+          .map((emoji) => CustomEmoji.fromJson(emoji as Map<String, dynamic>))
+          .toList(),
     );
   }
 

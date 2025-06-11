@@ -14,7 +14,9 @@ void main() {
     final account = apiService.currentAccount!;
 
     await tester.pumpWidget(
-      MaterialApp(home: User(account: account, apiService: apiService)),
+      MaterialApp(
+        home: User(account: account, apiService: apiService),
+      ),
     );
 
     // Expect to find the user's name

@@ -91,9 +91,8 @@ class TimelineState extends State<Timeline> {
         child: PagedListView<String?, Status>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Status>(
-            itemBuilder:
-                (context, item, index) =>
-                    StatusCard(item, apiService: widget.apiService),
+            itemBuilder: (context, item, index) =>
+                StatusCard(item, apiService: widget.apiService),
           ),
         ),
       ),

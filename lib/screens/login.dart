@@ -55,8 +55,8 @@ class _LoginState extends State<Login> {
     // If the previous call successfully restored the API status, then the
     // `helper` was appropriately instanced.
     if (widget.apiService.helper != null) {
-      AccessTokenResponse? token =
-          await widget.apiService.helper!.getTokenFromStorage();
+      AccessTokenResponse? token = await widget.apiService.helper!
+          .getTokenFromStorage();
 
       // This would check if, besides having a working `helper`, we also have
       // a user token stored.
@@ -79,11 +79,10 @@ class _LoginState extends State<Login> {
   void selectInstanceAction() {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text("Enter your Mastodon instance"),
-            content: InstanceForm(onSuccessfulSubmit: logInAction),
-          ),
+      builder: (context) => AlertDialog(
+        title: const Text("Enter your Mastodon instance"),
+        content: InstanceForm(onSuccessfulSubmit: logInAction),
+      ),
     );
   }
 

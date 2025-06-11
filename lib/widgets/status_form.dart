@@ -109,11 +109,9 @@ class StatusFormState extends State<StatusForm> {
             keyboardType: TextInputType.text,
             decoration: InputDecoration(helperText: helperText),
             controller: statusController,
-            validator:
-                (value) =>
-                    value == null || value.isEmpty
-                        ? 'This field should not be empty'
-                        : null,
+            validator: (value) => value == null || value.isEmpty
+                ? 'This field should not be empty'
+                : null,
           ),
           DropdownButtonFormField<StatusVisibility>(
             value: selectedVisibility,

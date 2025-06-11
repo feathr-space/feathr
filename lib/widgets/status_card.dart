@@ -160,10 +160,9 @@ class _StatusCardState extends State<StatusCard> {
                 );
               },
               child: CircleAvatar(
-                foregroundImage:
-                    status.account.avatarUrl != null
-                        ? NetworkImage(status.account.avatarUrl!)
-                        : null,
+                foregroundImage: status.account.avatarUrl != null
+                    ? NetworkImage(status.account.avatarUrl!)
+                    : null,
               ),
             ),
             title: Text(
@@ -192,10 +191,9 @@ class _StatusCardState extends State<StatusCard> {
                 'a': Style(textDecoration: TextDecoration.none),
               },
               // TODO: handle @mentions and #hashtags differently
-              onLinkTap:
-                  (url, renderContext, attributes) => {
-                    if (url != null) {launchUrl(Uri.parse(url))},
-                  },
+              onLinkTap: (url, renderContext, attributes) => {
+                if (url != null) {launchUrl(Uri.parse(url))},
+              },
             ),
           ),
           OverflowBar(
