@@ -35,16 +35,21 @@ class _StatusCardState extends State<StatusCard> {
     super.initState();
   }
 
-  /// Makes a call unto the Mastodon API in order to (un)favorite the current
-  /// toot, and updates the toot's state in the current widget accordingly.
-  void onFavoritePress() async {
+  /// Given the current state of an action (e.g., favorited, bookmarked, boosted),
+  /// and functions to both undo and do the action, this method will
+  /// toggle the status of the action by calling the appropriate API methods.
+  Future<void> _handleStatusAction(
+    bool currentState,
+    Future<Status> Function() undoAction,
+    Future<Status> Function() doAction,
+  ) async {
     Status newStatus;
 
     try {
-      if (status.favorited) {
-        newStatus = await widget.apiService.undoFavoriteStatus(status.id);
+      if (currentState) {
+        newStatus = await undoAction();
       } else {
-        newStatus = await widget.apiService.favoriteStatus(status.id);
+        newStatus = await doAction();
       }
     } on ApiException {
       if (mounted) {
@@ -59,58 +64,36 @@ class _StatusCardState extends State<StatusCard> {
     setState(() {
       status = newStatus;
     });
+  }
+
+  /// Makes a call unto the Mastodon API in order to (un)favorite the current
+  /// toot, and updates the toot's state in the current widget accordingly.
+  void onFavoritePress() async {
+    await _handleStatusAction(
+      status.favorited,
+      () => widget.apiService.undoFavoriteStatus(status.id),
+      () => widget.apiService.favoriteStatus(status.id),
+    );
   }
 
   /// Makes a call unto the Mastodon API in order to (un)bookmark the current
   /// toot, and updates the toot's state in the current widget accordingly.
   void onBookmarkPress() async {
-    Status newStatus;
-
-    try {
-      if (status.bookmarked) {
-        newStatus = await widget.apiService.undoBookmarkStatus(status.id);
-      } else {
-        newStatus = await widget.apiService.bookmarkStatus(status.id);
-      }
-    } on ApiException {
-      if (mounted) {
-        showSnackBar(
-          context,
-          "We couldn't perform that action, please try again!",
-        );
-      }
-      return;
-    }
-
-    setState(() {
-      status = newStatus;
-    });
+    await _handleStatusAction(
+      status.bookmarked,
+      () => widget.apiService.undoBookmarkStatus(status.id),
+      () => widget.apiService.bookmarkStatus(status.id),
+    );
   }
 
   /// Makes a call unto the Mastodon API in order to (un)boost the current
   /// toot, and updates the toot's state in the current widget accordingly.
   void onBoostPress() async {
-    Status newStatus;
-
-    try {
-      if (status.reblogged) {
-        newStatus = await widget.apiService.undoBoostStatus(status.id);
-      } else {
-        newStatus = await widget.apiService.boostStatus(status.id);
-      }
-    } on ApiException {
-      if (mounted) {
-        showSnackBar(
-          context,
-          "We couldn't perform that action, please try again!",
-        );
-      }
-      return;
-    }
-
-    setState(() {
-      status = newStatus;
-    });
+    await _handleStatusAction(
+      status.reblogged,
+      () => widget.apiService.undoBoostStatus(status.id),
+      () => widget.apiService.boostStatus(status.id),
+    );
   }
 
   // Displays a popup window with the reply screen for the selected toot.
@@ -122,23 +105,15 @@ class _StatusCardState extends State<StatusCard> {
     );
   }
 
+  static const Map<StatusVisibility, String> _visibilityIcons = {
+    StatusVisibility.public: "🌍",
+    StatusVisibility.unlisted: "🔒",
+    StatusVisibility.private: "🔐",
+  };
+
   String getStatusSubtitle() {
-    String accountHandle = status.account.acct;
-
-    String visibilityIcon = "";
-    switch (status.visibility) {
-      case StatusVisibility.public:
-        visibilityIcon = "🌍";
-        break;
-      case StatusVisibility.unlisted:
-        visibilityIcon = "🔒";
-        break;
-      case StatusVisibility.private:
-        visibilityIcon = "🔐";
-        break;
-    }
-
-    return "$visibilityIcon$accountHandle";
+    final visibilityIcon = _visibilityIcons[status.visibility] ?? "";
+    return "$visibilityIcon${status.account.acct}";
   }
 
   @override
