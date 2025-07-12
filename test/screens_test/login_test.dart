@@ -14,6 +14,8 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: Login(apiService: apiService)));
 
     // Expect to find the app's name
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Get started'), findsNothing);
     expect(find.text('feathr'), findsOneWidget);
   });
 }

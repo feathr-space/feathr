@@ -13,6 +13,17 @@ import 'api_test.mocks.dart';
 @GenerateMocks([http.Client])
 @GenerateMocks([OAuth2Helper])
 void main() {
+  // Helper method to set up common mock objects and API service
+  (ApiService, MockClient, MockOAuth2Helper) setupMockApiService() {
+    final mockClient = MockClient();
+    final mockHelper = MockOAuth2Helper();
+    final apiService = ApiService();
+    apiService.helper = mockHelper;
+    apiService.httpClient = mockClient;
+    apiService.instanceUrl = "https://example.org";
+    return (apiService, mockClient, mockHelper);
+  }
+
   test('setHelper properly creates an OauthHelper if/when needed', () async {
     final apiService = ApiService();
     expect(apiService.oauthClientId, isNull);
@@ -30,7 +41,7 @@ void main() {
     expect(apiService.helper, isA<OAuth2Helper>());
   });
 
-  group('ApiService.getClientCredentials', () {
+  group('ApiService', () {
     test(
       'getClientCredentials stores app credentials on a successful api request',
       () async {
@@ -65,7 +76,7 @@ void main() {
       },
     );
 
-    test('getClientCredentials handles error cases from the api', () async {
+    test('getClientCredentials handles error responses from the api', () async {
       final client = MockClient();
       final apiService = ApiService();
       apiService.httpClient = client;
@@ -89,7 +100,49 @@ void main() {
       );
       expect(
         () async => await apiService.getClientCredentials(),
-        throwsA(isA<ApiException>()),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.message,
+            'message',
+            "Unexpected status code 422 on `getClientCredentials`",
+          ),
+        ),
+      );
+
+      expect(apiService.oauthClientId, isNull);
+      expect(apiService.oauthClientSecret, isNull);
+    });
+
+    test('getClientCredentials handles exceptions from the api call', () async {
+      final client = MockClient();
+      final apiService = ApiService();
+      apiService.httpClient = client;
+
+      expect(apiService.oauthClientId, isNull);
+      expect(apiService.oauthClientSecret, isNull);
+
+      apiService.instanceUrl = "https://example.org";
+      when(
+        client.post(
+          Uri.parse('https://example.org/api/v1/apps'),
+          body: {
+            "client_name": "feathr",
+            "redirect_uris": 'space.feathr.app://oauth-callback',
+            "scopes": "read write follow",
+            "website": "https://feathr.space",
+          },
+        ),
+      ).thenThrow(Exception("Network error"));
+
+      expect(
+        () async => await apiService.getClientCredentials(),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.message,
+            'message',
+            "Error connecting to server on `getClientCredentials`",
+          ),
+        ),
       );
 
       expect(apiService.oauthClientId, isNull);
@@ -97,13 +150,7 @@ void main() {
     });
 
     test('favoriteStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -138,13 +185,7 @@ void main() {
     });
 
     test('favoriteStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -163,13 +204,7 @@ void main() {
     });
 
     test('undoFavoriteStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -201,13 +236,7 @@ void main() {
     });
 
     test('undoFavoriteStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -226,13 +255,7 @@ void main() {
     });
 
     test('bookmarkStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -264,13 +287,7 @@ void main() {
     });
 
     test('bookmarkStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -289,13 +306,7 @@ void main() {
     });
 
     test('undoBookmarkStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -326,13 +337,7 @@ void main() {
     });
 
     test('undoBookmarkStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -351,13 +356,7 @@ void main() {
     });
 
     test('boostStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -388,13 +387,7 @@ void main() {
     });
 
     test('boostStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -413,13 +406,7 @@ void main() {
     });
 
     test('undoBoostStatus performs action successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -450,13 +437,7 @@ void main() {
     });
 
     test('undoBoostStatus handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
-
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
       const testStatusId = "12345";
 
       when(
@@ -475,12 +456,7 @@ void main() {
     });
 
     test('getAccount retrieves user from api successfully', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
 
       when(
         mockHelper.get(
@@ -509,12 +485,7 @@ void main() {
     });
 
     test('getAccount handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
 
       when(
         mockHelper.get(
@@ -556,12 +527,7 @@ void main() {
     test(
       'getCurrentAccount retrieves user from api when needed successfully',
       () async {
-        final mockClient = MockClient();
-        final mockHelper = MockOAuth2Helper();
-        final apiService = ApiService();
-        apiService.helper = mockHelper;
-        apiService.httpClient = mockClient;
-        apiService.instanceUrl = "https://example.org";
+        final (apiService, mockClient, mockHelper) = setupMockApiService();
 
         when(
           mockHelper.get(
@@ -591,12 +557,7 @@ void main() {
     );
 
     test('getCurrentAccount handles api errors as expected', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
 
       when(
         mockHelper.get(
@@ -616,12 +577,7 @@ void main() {
     });
 
     test('logIn mirrors behavior of getAccount', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
 
       when(
         mockHelper.get(
@@ -650,12 +606,7 @@ void main() {
     });
 
     test('getStatusList retrieves a list of statuses from the API', () async {
-      final mockClient = MockClient();
-      final mockHelper = MockOAuth2Helper();
-      final apiService = ApiService();
-      apiService.helper = mockHelper;
-      apiService.httpClient = mockClient;
-      apiService.instanceUrl = "https://example.org";
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
 
       when(
         mockHelper.get(
@@ -687,14 +638,28 @@ void main() {
     });
 
     test(
+      'getStatusList handles null accountIds when timeline type is user',
+      () async {
+        final (apiService, mockClient, mockHelper) = setupMockApiService();
+
+        expect(
+          () async =>
+              await apiService.getStatusList(TimelineType.user, null, 10),
+          throwsA(
+            isA<ApiException>().having(
+              (e) => e.message,
+              'message',
+              "You must provide an `accountId` for the `user` timeline type",
+            ),
+          ),
+        );
+      },
+    );
+
+    test(
       'postStatus posts a new status and returns the created status',
       () async {
-        final mockClient = MockClient();
-        final mockHelper = MockOAuth2Helper();
-        final apiService = ApiService();
-        apiService.helper = mockHelper;
-        apiService.httpClient = mockClient;
-        apiService.instanceUrl = "https://example.org";
+        final (apiService, mockClient, mockHelper) = setupMockApiService();
 
         when(
           mockHelper.post(
