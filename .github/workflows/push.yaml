@@ -9,10 +9,10 @@ jobs:
     - uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '21'
+        java-version: '24'
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.32.2'
+        flutter-version: '3.32.6'
         channel: 'stable'
     - name: Download dependencies
       run: flutter pub get
@@ -24,9 +24,9 @@ jobs:
       run: flutter test --coverage --reporter expanded
     - name: Print coverage information
       run: dart run test_cov_console --file=coverage/lcov.info
-    - name: Ensure test coverage is at least 70%
+    - name: Ensure test coverage is at least 75%
       run: |
-        result=$(dart run test_cov_console --file=coverage/lcov.info --pass=70)
+        result=$(dart run test_cov_console --file=coverage/lcov.info --pass=75)
         echo $result
         if [ "$result" = "PASSED" ]; then
           exit 0
