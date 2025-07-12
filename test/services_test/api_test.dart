@@ -637,6 +637,29 @@ void main() {
       expect(statuses[1].account.displayName, equals("User Two"));
     });
 
+    test('getStatusList handles error status codes from the API', () async {
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
+
+      when(
+        mockHelper.get(
+          "https://example.org/api/v1/timelines/public?limit=10?local=true?max_id=baseId",
+          httpClient: mockClient,
+        ),
+      ).thenAnswer((_) async => http.Response('{}', 503));
+
+      expect(
+        () async =>
+            await apiService.getStatusList(TimelineType.local, "baseId", 10),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.message,
+            'message',
+            "Unexpected status code 503 on `getStatusList`",
+          ),
+        ),
+      );
+    });
+
     test(
       'getStatusList handles null accountIds when timeline type is user',
       () async {
@@ -684,5 +707,83 @@ void main() {
         expect(status.content, equals("<p>Hello, world!</p>"));
       },
     );
+
+    test('postStatus handles errors when calling the API', () async {
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
+
+      when(
+        mockHelper.post(
+          "https://example.org/api/v1/statuses",
+          body: {
+            "status": "Hello, world!",
+            "visibility": "public",
+            "spoiler_text": "",
+          },
+          httpClient: mockClient,
+        ),
+      ).thenAnswer((_) async => http.Response('{}', 400));
+
+      expect(
+        () async => await apiService.postStatus("Hello, world!"),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.message,
+            'message',
+            "Unexpected status code 400 on `postStatus`",
+          ),
+        ),
+      );
+    });
+
+    test('postStatus posts a new reply and returns the created status', () async {
+      final (apiService, mockClient, mockHelper) = setupMockApiService();
+
+      when(
+        mockHelper.post(
+          "https://example.org/api/v1/statuses",
+          body: {
+            "status": "Hello, world!",
+            "visibility": "public",
+            "in_reply_to_id": "replyToId",
+            "spoiler_text": "",
+          },
+          httpClient: mockClient,
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          '{"id": "1", "created_at": "2025-01-01T00:00:00Z", "visibility": "public", "emoji": [], "content": "<p>Hello, world!</p>", "favourited": false, "bookmarked": false, "reblogged": false, "favourites_count": 0, "reblogs_count": 0, "replies_count": 2, "spoiler_text": "", "account": {"id": "account1", "username": "user1", "acct": "user1", "display_name": "User One", "locked": false, "bot": false, "avatar": "avatar1-url", "header": "header1-url"}}',
+          200,
+        ),
+      );
+
+      final status = await apiService.postStatus(
+        "Hello, world!",
+        replyToStatus: Status(
+          id: "replyToId",
+          content: "<p>Reply to this status</p>",
+          createdAt: DateTime.parse("2025-01-01T00:00:00Z"),
+          favorited: false,
+          bookmarked: false,
+          reblogged: false,
+          favouritesCount: 0,
+          reblogsCount: 0,
+          repliesCount: 2,
+          visibility: StatusVisibility.public,
+          customEmojis: [],
+          spoilerText: "",
+          account: Account(
+            id: "account1",
+            username: "user1",
+            acct: "user1",
+            displayName: "User One",
+            isLocked: false,
+            isBot: false,
+          ),
+        ),
+      );
+
+      expect(status.id, equals("1"));
+      expect(status.content, equals("<p>Hello, world!</p>"));
+    });
   });
 }
